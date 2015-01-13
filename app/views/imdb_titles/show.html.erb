@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Titlekey:</strong>
+  <%= @imdb_title.titleKey %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @imdb_title.name %>
+</p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @imdb_title.year %>
+</p>
+
+<%= link_to 'Edit', edit_imdb_title_path(@imdb_title) %> |
+<%= link_to 'Back', imdb_titles_path %>
