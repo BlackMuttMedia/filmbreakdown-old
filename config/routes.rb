@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  resources :shots
+
+  #get 'static_pages/home'
+
+  get 'help' => 'static_pages#help'
+
+  get 'static_pages/about'
+
   resources :posts
 
   resources :imdb_titles
@@ -10,9 +18,9 @@ Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  root 'application#home'
+  root 'static_pages#home'
 
-  get 'story/' => 'application#story'
+  get 'story' => 'application#story'
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

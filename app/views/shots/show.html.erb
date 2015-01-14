@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Imdb title:</strong>
+  <%= @shot.imdb_title_id %>
+</p>
+
+<p>
+  <strong>Submitted by:</strong>
+  <%= @shot.submitted_by %>
+</p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @shot.start_time %>
+</p>
+
+<p>
+  <strong>End time:</strong>
+  <%= @shot.end_time %>
+</p>
+
+<%= link_to 'Edit', edit_shot_path(@shot) %> |
+<%= link_to 'Back', shots_path %>

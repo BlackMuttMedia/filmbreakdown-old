@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  imdb_title_id: 1
+  submitted_by: 1
+  start_time: 2015-01-13 19:10:52
+  end_time: 2015-01-13 19:10:52
+
+two:
+  imdb_title_id: 1
+  submitted_by: 1
+  start_time: 2015-01-13 19:10:52
+  end_time: 2015-01-13 19:10:52
