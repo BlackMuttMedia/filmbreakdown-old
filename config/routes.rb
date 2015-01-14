@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :posts
 
-  resources :imdb_titles
+  resources :imdb_titles, path: '/titles'
 
   resources :categories
 

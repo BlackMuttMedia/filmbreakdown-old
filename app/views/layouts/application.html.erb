@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><%= content_for?(:title) ? yield(:title) + " | Film Breakdown" : "Film Breakdown" %></title>
+    <title><%= full_title(yield(:title)) %></title>
 
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "vendor/modernizr" %>
@@ -31,8 +31,9 @@
 	        <!-- whatever you want goes here -->
 	        <ul class="off-canvas-list">
 	          <li><label>Movie Information</label></li>
-	          <li><a href="/imdb_titles">IMDb Titles</a></li>
+	          <li><a href="/titles">Titles</a></li>
 	          <li><a href="/posts">Posts</a></li>
+	          <li><a href="/shots">Shots</a></li>
 	          <li><a href="/categories">Categories</a></li>
 	          <li><label>Account Information</label></li>
 	          <li><a href="/Users">Users</a></li>
