@@ -9,46 +9,22 @@
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "vendor/modernizr" %>
     <%= csrf_meta_tags %>
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
+      </script>
+    <![endif]-->
   </head>
 
   <body>
-	<div class="off-canvas-wrap" data-offcanvas>
-	  <div class="inner-wrap">
+	  <div class="container">
+  	  <%= render 'layouts/nav' %>
 
-	    <nav class="tab-bar">
-	      <section class="left-small">
-	        <a class="left-off-canvas-toggle menu-icon" ><span></span></a>
-	      </section>
+		  <div class="row">
+			    <%= yield %>
+			    <%= javascript_include_tag "application" %>
+    	  </div>
+  	  </div>
 
-	      <section class="right tab-bar-section">
-	        <a href="/"><h1 class="title">Film Breakdown</h1></a>
-	      </section>
-
-	    </nav>
-
-	    <!-- Off Canvas Menu -->
-	    <aside class="left-off-canvas-menu">
-	        <!-- whatever you want goes here -->
-	        <ul class="off-canvas-list">
-	          <li><label>Movie Information</label></li>
-	          <li><a href="/titles">Titles</a></li>
-	          <li><a href="/posts">Posts</a></li>
-	          <li><a href="/shots">Shots</a></li>
-	          <li><a href="/categories">Categories</a></li>
-	          <li><label>Account Information</label></li>
-	          <li><a href="/Users">Users</a></li>
-	        ...
-	        </ul>
-	    </aside>
-
-	    <%= yield %>
-	    <%= javascript_include_tag "application" %>
-
-
-	  <!-- close the off-canvas menu -->
-	  <a class="exit-off-canvas"></a>
-
-	  </div>
-	</div>
+      <%= render 'layouts/footer' %>
   </body>
 </html>

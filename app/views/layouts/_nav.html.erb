@@ -1,0 +1,30 @@
+	    <nav class="top-bar" data-topbar role="navigation">
+		    <ul class="title-area">
+		    	<li class="name">
+		    		<h1><a href="/">Film Breakdown</a></h1>
+		    	</li>
+
+		    	<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+		    </ul>
+			  <section class="top-bar-section">
+			    <!-- Right Nav Section -->
+			    <ul class="right">
+			      <!-- <li><a href="#">Right Button Active</a></li> -->
+			      <li><%= link_to "About", about_path %></li>
+			      <li><%= link_to "Contact", contact_path %></li>
+			      <li><%= link_to "Help", help_path %></li>
+			      <li> <!-- class="has-dropdown"> -->
+			        <a href="#">Log In</a>
+			      </li>
+			    </ul>
+
+			    <!-- Left Nav Section -->
+			    <ul class="left">
+		          <li><%= link_to "Titles", imdb_titles_path %></li>
+		          <li><%= link_to "Posts", posts_path %></li>
+		          <li><%= link_to "Shots", shots_path %></li>
+		          <li><%= link_to "Categories", categories_path %></li>
+		          <li><%= link_to "Users", users_path %></li>
+			    </ul>
+			  </section>
+		  </nav>
