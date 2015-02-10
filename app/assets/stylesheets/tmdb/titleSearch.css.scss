@@ -1,0 +1,23 @@
+@import "foundation_and_overrides";
+$include-html-dropdown-classes: $include-html-classes;
+
+.ui-helper-hidden-accessible { position: absolute; left: -9999px; }
+
+// We use this to set the border styles for dropdowns.
+$f-dropdown-border-style: solid !default;
+$f-dropdown-border-width: 1px !default;
+$f-dropdown-border-color: scale-color($white, $lightness: -20%) !default;
+
+// We use these to style the triangle pip.
+$f-dropdown-triangle-size: 6px !default;
+$f-dropdown-triangle-color: $white !default;
+$f-dropdown-triangle-side-offset: 10px !default;
+
+.search-dropdown {
+	@include dropdown-container(
+		$content: list
+		);
+	li.ui-state-focus { background-color: $smoke; }
+	color: $charcoal;
+}
+

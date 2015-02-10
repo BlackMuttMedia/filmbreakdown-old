@@ -10,6 +10,20 @@
 			    <!-- Right Nav Section -->
 			    <ul class="right">
 			      <!-- <li><a href="#">Right Button Active</a></li> -->
+			      <li class="has-form">
+			      	<form>
+				      	<div class="large-12 columns">
+			      		  <div class="row collapse">
+				      		<div class="small-9 medium-9 large-10 columns">
+				      			<input type="text" class="titleSearch" placeholder="Search For Movies">
+				      		</div>
+				      		<div class="small-3 medium-3 large-2 end columns">
+				      			<a href="#" class="tiny button secondary">Go</a>
+				      		</div>
+			      		  </div>
+				      	</div>
+			      	</form>
+			      </li>
 			      <li><%= link_to "About", about_path %></li>
 			      <li><%= link_to "Contact", contact_path %></li>
 			      <li><%= link_to "Help", help_path %></li>
@@ -20,7 +34,7 @@
 
 			    <!-- Left Nav Section -->
 			    <ul class="left">
-		          <li><%= link_to "Titles", imdb_titles_path %></li>
+		          <li><%= link_to "Films", films_path %></li>
 		          <li><%= link_to "Posts", posts_path %></li>
 		          <li><%= link_to "Shots", shots_path %></li>
 		          <li><%= link_to "Categories", categories_path %></li>

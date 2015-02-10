@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :films
+
   resources :shots
 
   #get 'static_pages/home'
@@ -7,6 +9,7 @@ Rails.application.routes.draw do
   get 'about' => 'static_pages#about'
   get 'contact' => 'static_pages#contact'
   get 'signup' => 'users#new'
+  get 'film/:tmdb_id' => 'films#getbytmdb'
 
   resources :posts
 
