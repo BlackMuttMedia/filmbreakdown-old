@@ -18,7 +18,6 @@
 //= require underscore
 //= require react
 //= require react_ujs
-//= require components
 
 // Vendor Files
 //= require themoviedb
