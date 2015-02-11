@@ -11,8 +11,8 @@ gem 'jbuilder',             '2.2.3'
 gem 'sdoc',                 '0.4.0', group: :doc
 gem 'foundation-rails'
 gem 'filmbuff'
-gem 'themoviedb'
-gem 'react-rails'
+gem 'themoviedb',           '0.0.24'
+gem 'react-rails', '~> 1.0.0.pre', github: 'reactjs/react-rails'
 gem 'bower-rails'
 gem 'underscore-rails'
 

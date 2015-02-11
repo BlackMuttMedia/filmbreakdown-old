@@ -13,7 +13,7 @@ class FilmsController < ApplicationController
   end
 
   def getbytmdb
-    @tmdb_id = params[:tmdb_id].partition('-').first
+    @tmdb_id = params[:tmdb_id]
     @film = Film.find_by(tmdb_id: @tmdb_id)
 
     if(@film == nil)
@@ -23,8 +23,11 @@ class FilmsController < ApplicationController
 
     @size = 'w500'
     @tmdb_film = Tmdb::Movie.detail(@tmdb_id)
-    @cast = Tmdb::Movie.credits($tmdb_id).inspect
-    #@director = @cast.detect{|c| c.job == "Director"}
+    @credits = Tmdb::Movie.credits(@tmdb_id)
+    @cast = @credits.cast
+    @crew = @credits.crew
+    #@director = @cast.where(:job => "Director").first
+    @director = @crew.detect{|c| c.job == "Director"}
   end
 
   # GET /films/new

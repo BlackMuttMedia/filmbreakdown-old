@@ -13,14 +13,7 @@
 			      <li class="has-form">
 			      	<form>
 				      	<div class="large-12 columns">
-			      		  <div class="row collapse">
-				      		<div class="small-9 medium-9 large-10 columns">
-				      			<input type="text" class="titleSearch" placeholder="Search For Movies">
-				      		</div>
-				      		<div class="small-3 medium-3 large-2 end columns">
-				      			<a href="#" class="tiny button secondary">Go</a>
-				      		</div>
-			      		  </div>
+				      		<%= react_component('SearchBox', {}, { prerender: params[:noprerender].nil? }) %>
 				      	</div>
 			      	</form>
 			      </li>

@@ -35,7 +35,7 @@ getFilmUrl = function(item)
 	var url = '/film/';
 	if(!(item === 'undefined' || item == null || isNullOrWhitespace(item.title)))
 	{
-		url = url + item.id + '-' + item.title.replace(' ', '-');
+		url = url + item.id + '-' + item.title.split(' ').join('-').split('%20').join('-'); //.replace(' ', '-').replace('%20', '-');
 		if(!isNullOrWhitespace(item.release_date))
 		{
 			url = url + '-' + item.release_date.substring(0, 4);
