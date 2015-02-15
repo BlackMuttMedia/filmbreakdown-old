@@ -11,24 +11,6 @@ var SearchBox = React.createClass({
 	  		  </div>
 		)
 	}, 
-     isNullOrWhitespace: function(stringValue) {
-          return (typeof stringValue === 'undefined' || stringValue == null || stringValue.replace(/\s/g, '').length < 1);
-     },
-     getTmdbThumbnailUrl: function(poster_path)
-     {
-          return this.isNullOrWhitespace(poster_path) ? null : "http://image.tmdb.org/t/p/w45/" + poster_path;
-     },
-     getTmdbThumbnailTag: function(poster_path)
-     {
-     	var imageTag;
-
-         if(!this.isNullOrEmpty(poster_path))
-         {
-              imageTag = <img src={this.getTmdbThumbnailUrl(poster_path)} />;
-         }
-
-          return imageTag;
-     }
 });
 
 var SearchBoxInput = React.createClass({
@@ -79,7 +61,8 @@ var SearchBoxInput = React.createClass({
 
 		  	$(ul).append(renderedListItem);
 		  	$(ul[0].lastChild).data("ui-autocomplete-item", item);
-		  	
+
+	  		//React.render(listItem, ul[0]);
 	    	return  ul;
 	    }
 	}
