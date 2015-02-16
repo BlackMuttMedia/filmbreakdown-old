@@ -25,6 +25,7 @@ var FilmDetail = React.createClass({
 		  <div>
 		  	<FilmBackground baseUrl={baseUrl} backgroundPath={backgroundPath} />
 			  <div style={summaryStyle} className="row summary">
+		  		<p className="notice"></p>
 			    <FilmPosterImage baseUrl={baseUrl} posterPath={posterPath} />
 			    <FilmContent filmData={this.state.film} creditData={this.state.credits} />
 			    <FilmConversation />
@@ -53,7 +54,7 @@ var FilmPosterImage = React.createClass({
 
 		if(this.props.baseUrl && this.props.posterPath)
 		{
-			image = <img src={this.props.baseUrl + 'w154' + this.props.posterPath} />;
+			image = <img className="th radius" src={this.props.baseUrl + 'w154' + this.props.posterPath} />;
 		}
 		return (
 	    <div className="small-3 columns">
