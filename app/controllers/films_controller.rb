@@ -15,8 +15,9 @@ class FilmsController < ApplicationController
   def getbytmdb
     @tmdb_id = params[:tmdb_id]
     @film = Film.find_by(tmdb_id: @tmdb_id)
+    @tmdb_film = Tmdb::Movie.detail(@tmdb_id)
 
-    if(@film == nil && @tmdb_id != nil && @tmdb_id > 0)
+    if(@film == nil && @tmdb_film != nil)
       @film = Film.new({ tmdb_id: @tmdb_id })
       @film.save
     end

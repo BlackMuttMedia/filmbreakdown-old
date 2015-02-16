@@ -15,11 +15,13 @@ class GenresController < ApplicationController
   def getbytmdb
     @tmdb_id = params[:tmdb_id]
     @genre = Genre.find_by(tmdb_id: @tmdb_id)
+    @tmdb_genre = Tmdb::Genre.detail(@tmdb_id)
 
-    if(@genre == nil && @tmdb_id != nil && @tmdb_id > 0)
+    if(@genre == nil && @tmdb_genre != nil)
       @genre = Genre.new({ tmdb_id: @tmdb_id })
       @genre.save
     end
+
   end
 
   # GET /genres/new
