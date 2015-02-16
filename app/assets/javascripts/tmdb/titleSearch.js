@@ -20,14 +20,20 @@ getFormattedTitle = function(item)
 	var label = '';
 	if(!(item === 'undefined' || item == null || isNullOrWhitespace(item.title)))
 	{
-		label = item.title;
-		if(!isNullOrWhitespace(item.release_date))
-		{
-			label = label + ' (' + item.release_date.substring(0, 4) + ')';
-		}
+		label	 = getFormattedTitleFromParts(item.title);
 	}
 
 	return label;
+};
+
+getFormattedTitleFromParts = function(title, releaseDate){
+		var formattedTitle = title;
+		if(!isNullOrWhitespace(releaseDate))
+		{
+			formattedTitle = formattedTitle + ' (' + releaseDate.substring(0, 4) + ')';
+		}
+
+		return formattedTitle;
 };
 
 getFilmUrl = function(item)

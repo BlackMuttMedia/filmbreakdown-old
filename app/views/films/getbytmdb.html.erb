@@ -1,28 +1,2 @@
-<style type="text/css">
-  .summary {
-    background-image: <%= "url(#{@configuration.base_url}w1280#{@tmdb_film.backdrop_path})" if @tmdb_film.backdrop_path %>;
-    background-size: cover;
-    background-repeat: no-repeat;
-
-    
-    text-shadow: 2px 2px 2px #444;
-  }
-</style>
-
-<p id="notice"><%= notice %></p>
-
-  <!-- First Band (Image) -->
- 
-  <div class="row summary">
-    <div class="large-3 columns">
-      <%= image_tag("#{@configuration.base_url}w154#{@tmdb_film.poster_path}") if @tmdb_film.poster_path %>
-    </div>
-    <div class="large-9 columns">
-    	<h1><%= @tmdb_film.title %></h1>
-    	<h4>Directed By</h4>
-      <h5> <%= @director.name %></h5>
-    	<p><%= @tmdb_film.overview %></p>
-    </div>
-  </div>
-</p>
+<div class="small-12 columns" data-react-class="FilmDetail" data-react-props="<%= {filmId: @tmdb_id}.to_json %>" />
 

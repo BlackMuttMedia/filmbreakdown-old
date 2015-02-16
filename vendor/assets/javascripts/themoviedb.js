@@ -55,17 +55,18 @@ theMovieDb.common = {
     },
     client: function (options, success, error) {
         'use strict';
-        var method, status, xhr;
+        var method, status, async, xhr;
         
         method = options.method || "GET";
         status = options.status || 200;
+        async = !(options.synchronous || false);
         xhr = new XMLHttpRequest();
         
         xhr.ontimeout = function () {
             error('{"status_code":408,"status_message":"Request timed out"}');
         };
         
-        xhr.open(method, theMovieDb.common.base_uri + options.url, true);
+        xhr.open(method, theMovieDb.common.base_uri + options.url, async);
 
         if(options.method === "POST") {
             xhr.setRequestHeader("Content-Type", "application/json");
