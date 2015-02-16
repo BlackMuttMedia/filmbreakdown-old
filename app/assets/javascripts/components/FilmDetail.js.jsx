@@ -75,7 +75,8 @@ var FilmBackground = React.createClass({
 	    left: 0,
 	    height: '100%',
 	    width: '100%',
-	    backgroundRepeat: 'no-repeat'
+	    backgroundRepeat: 'no-repeat',
+	    opacity: '0.4'
 		};
 
 		if(this.props.baseUrl && this.props.backgroundPath)
