@@ -4,7 +4,7 @@ class FilmsController < ApplicationController
   # GET /films
   # GET /films.json
   def index
-    @films = Film.select(:tmdb_id)
+    @films = Film.where('tmdb_id > 0').select(:tmdb_id)
   end
 
   # GET /films/1

@@ -13,9 +13,9 @@ var FilmList = React.createClass({
 		var items = this.getFilmListItems();
 
 		return (
-			<div className="row">
+			<ul className="small-block-grid-1">
 				{items}
-			</div>);
+			</ul>);
 	},
 	setConfig: function(data){
 		var config = JSON.parse(data);
@@ -30,6 +30,8 @@ var FilmList = React.createClass({
 		var data = JSON.parse(jsonData);
 
 		newState.push({ tmdbId: data.id, title: data.title, posterPath: data.poster_path, releaseDate: data.release_date  });
+		newState = _.sortBy(newState, function(film){ return film.title });
+
 		this.setState({ films: newState });
 	},
 	setError: function(data){
@@ -40,7 +42,12 @@ var FilmList = React.createClass({
 
 		var films = this.state.films.map(
 			function(film){
-				return <FilmListItem key={film.tmdbId} title={film.title} posterPath={film.posterPath} releaseDate={film.releaseDate} baseUrl={self.state.baseUrl} />;
+				if(film.tmdbId == 0)
+				{
+					return;
+				}
+
+				return <FilmListItem key={film.tmdbId} tmdbId={film.tmdbId} title={film.title} posterPath={film.posterPath} releaseDate={film.releaseDate} baseUrl={self.state.baseUrl} />;
 		});
 
 		return films;
@@ -49,15 +56,24 @@ var FilmList = React.createClass({
 
 var FilmListItem = React.createClass({
 	render: function() {
+		var filmUrl = getFilmUrl({ id: this.props.tmdbId, title: this.props.title });
+		var listStyle = {
+		};
+		var anchorStyle = {
+			margin: '0px',
+			display: 'block',
+			width: '100%',
+			height: '100%'
+		};
+
 		return (
-			<div className="row">
-				<FilmListImage baseUrl={this.props.baseUrl} posterPath={this.props.posterPath} />
-				<FilmListTitle title={this.props.title} />
-			</div>
+			<li style={listStyle}>
+				<a href={filmUrl} style={anchorStyle}>
+					<FilmListImage baseUrl={this.props.baseUrl} posterPath={this.props.posterPath} />
+					<FilmListTitle title={this.props.title} />
+				</a>
+			</li>
 		);
-	},
-	handleClick: function() {
-		window.location.href=getFilmUrl({ id: this.props.tmdbId, title: this.props.title});
 	}
 });
 
@@ -67,7 +83,7 @@ var FilmListImage = React.createClass({
 
 		if(this.props.baseUrl && this.props.posterPath)
 		{
-			image = <img src={this.props.baseUrl + 'w154' + this.props.posterPath} />;
+			image = <img className="th radius" src={this.props.baseUrl + 'w92' + this.props.posterPath} />;
 		}
 
 		return (
@@ -86,7 +102,7 @@ var FilmListTitle = React.createClass({
 	render: function() { 
 		return (
 			<div className="small-9 columns">
-				<h3>{this.props.title}</h3>
+				{this.props.title}
 			</div>
 		);
 	}

@@ -38,7 +38,6 @@ var FilmDetail = React.createClass({
 	},
 	setFilm: function(data){
 		this.setState({film: JSON.parse(data)});
-		this.render();
 	},
 	setCredits: function(data){
 		this.setState({credits: JSON.parse(data)});
