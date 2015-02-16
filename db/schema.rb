@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150120204529) do
+ActiveRecord::Schema.define(version: 20150216225244) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -23,6 +23,14 @@ ActiveRecord::Schema.define(version: 20150120204529) do
     t.integer  "tmdb_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "genres", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "tmdb_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "im_db_titles", force: :cascade do |t|

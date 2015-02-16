@@ -119,9 +119,9 @@ var FilmContent = React.createClass({
 		    <div className="small-6 columns">
 		    	<FilmTitle titleText={this.props.filmData.title} year={year} />
 		    	<FilmOverview overviewText={this.props.filmData.overview} />
-		    	<FilmDetailsList label="Directed By" items={directors} />
-		    	<FilmDetailsList label="Genres" items={genres} />
-		    	<FilmDetailsList label="Top Cast" items={cast} />
+		    	<DetailsList label="Directed By" items={directors} />
+		    	<DetailsList label="Genres" items={genres} />
+		    	<DetailsList label="Top Cast" items={cast} />
 		    </div>
 	    );
 	},
@@ -166,7 +166,7 @@ var FilmTitle = React.createClass({
 	)}
 });
 
-var FilmDetailsList = React.createClass({
+var DetailsList = React.createClass({
 	render: function() {
 		var items = this.getItems();
 
@@ -183,14 +183,14 @@ var FilmDetailsList = React.createClass({
 		var self = this;
 		var details = this.props.items.map(
 			function(item){
-				return <FilmDetailItem key={item.id} name={item.name} baseUrl={self.props.baseUrl} displayValue={item.displayValue} />;
+				return <DetailItem key={item.id} name={item.name} baseUrl={self.props.baseUrl} displayValue={item.displayValue} />;
 		});
 
 		return details;
 	}
 });
 
-var FilmDetailItem = React.createClass({
+var DetailItem = React.createClass({
 	render: function() {
 		var detailItem;
 		var label = this.props.displayValue || this.props.name;

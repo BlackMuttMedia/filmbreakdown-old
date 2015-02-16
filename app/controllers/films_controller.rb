@@ -16,18 +16,10 @@ class FilmsController < ApplicationController
     @tmdb_id = params[:tmdb_id]
     @film = Film.find_by(tmdb_id: @tmdb_id)
 
-    if(@film == nil)
+    if(@film == nil && @tmdb_id != nil && @tmdb_id > 0)
       @film = Film.new({ tmdb_id: @tmdb_id })
       @film.save
     end
-
-    @size = 'w500'
-    @tmdb_film = Tmdb::Movie.detail(@tmdb_id)
-    @credits = Tmdb::Movie.credits(@tmdb_id)
-    @cast = @credits.cast
-    @crew = @credits.crew
-    #@director = @cast.where(:job => "Director").first
-    @director = @crew.detect{|c| c.job == "Director"}
   end
 
   # GET /films/new

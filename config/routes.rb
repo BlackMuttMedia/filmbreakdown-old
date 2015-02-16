@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'contact' => 'static_pages#contact'
   get 'signup' => 'users#new'
   get 'film/:tmdb_id' => 'films#getbytmdb'
+  get 'genre/:tmdb_id' => 'genres#getbytmdb'
 
   resources :posts
 
