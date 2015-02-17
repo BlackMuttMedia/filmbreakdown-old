@@ -153,7 +153,7 @@ var DetailItem = React.createClass({
 
 		if(this.props.baseUrl)
 		{
-			var fullUrl = this.props.baseUrl + this.props.id;
+			var fullUrl = this.props.baseUrl + this.props.id + '-' + getUrlKey(this.props.name);
 
 			detailItem = 
 				<div className="row">
