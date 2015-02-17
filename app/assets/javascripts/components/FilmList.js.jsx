@@ -5,7 +5,7 @@ var FilmList = React.createClass({
 		_.each(this.props.filmIds, function(film){
 			theMovieDb.movies.getById({id: film.tmdb_id, synchronous: true}, self.setFilm, self.setError);
 
-		})
+		});
 
 		return {films: [], error: {}};
 	},

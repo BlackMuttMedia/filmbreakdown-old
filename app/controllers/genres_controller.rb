@@ -1,5 +1,5 @@
 class GenresController < ApplicationController
-  before_action :set_genre, only: [:show, :edit, :update, :destroy]
+  before_action :set_genre, only: [:edit, :update, :destroy]
 
   # GET /genres
   # GET /genres.json
@@ -10,10 +10,7 @@ class GenresController < ApplicationController
   # GET /genres/1
   # GET /genres/1.json
   def show
-  end
-
-  def getbytmdb
-    @tmdb_id = params[:tmdb_id]
+    @tmdb_id = params[:id]
     if(@tmdb_id == nil)
       redirect_to '/genres/'
     end
@@ -28,7 +25,7 @@ class GenresController < ApplicationController
 
     @name = @tmdb_genre.name
     @overview = 'This is a genre where people do things. It began before now and its purpose is to make you watch.'
-    
+
     if(@genre == nil && @tmdb_genre != nil)
       @genre = Genre.new({ tmdb_id: @tmdb_id, name: @name })
       @genre.save

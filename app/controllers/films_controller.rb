@@ -1,5 +1,5 @@
 class FilmsController < ApplicationController
-  before_action :set_film, only: [:show, :edit, :update, :destroy]
+  before_action :set_film, only: [:edit, :update, :destroy]
 
   # GET /films
   # GET /films.json
@@ -10,10 +10,7 @@ class FilmsController < ApplicationController
   # GET /films/1
   # GET /films/1.json
   def show
-  end
-
-  def getbytmdb
-    @tmdb_id = params[:tmdb_id]
+    @tmdb_id = params[:id]
     if(@tmdb_id == nil)
       redirect_to '/films/'
     end

@@ -38,18 +38,47 @@ getFormattedTitleFromParts = function(title, releaseDate){
 
 getFilmUrl = function(item)
 {
-	var url = '/film/';
-	if(!(item === 'undefined' || item == null || isNullOrWhitespace(item.title)))
-	{
-		url = url + item.id + '-' + item.title.split(' ').join('-').split('%20').join('-'); //.replace(' ', '-').replace('%20', '-');
-		if(!isNullOrWhitespace(item.release_date))
-		{
-			url = url + '-' + item.release_date.substring(0, 4);
-		}
+	var fullUrl;
+
+	if(!(item === 'undefined' || item == null || isNullOrWhitespace(item.title))){
+		fullUrl = getUrlFromParts('/films/', item.id, item.title, item.release_date);
 	}
 
-	return url;
+	return fullUrl;
 };
+
+getGenreUrl = function(item)
+{
+	var fullUrl;
+
+	if(!(item === 'undefined' || item == null || isNullOrWhitespace(item.title))){
+		fullUrl = getUrlFromParts('/genres/', item.id, item.title, item.release_date);
+	}
+
+	return fullUrl;
+};
+
+getUrlFromParts = function(baseUrl, id, title, releaseDate)
+{
+	var url = baseUrl + id + '-' +  getUrlKey(item.title);
+
+	if(!isNullOrWhitespace(releaseDate))
+	{
+		url = url + '-' + releaseDate.substring(0, 4);
+	}
+	
+	return url;
+}
+
+getUrlKey = function(title)
+{
+	return title.replace(/[ ]+/g, "-").replace(/[^a-zA-Z0-9\-]+/g, ""); 
+}
+
+getUrlFromParts = function(baseUrl, id, urlKey)
+{
+	return baseUrl + id + '-' + urlKey;
+}
 
 
 isNullOrWhitespace =  function(stringValue) {

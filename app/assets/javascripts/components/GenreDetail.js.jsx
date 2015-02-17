@@ -28,7 +28,7 @@ var GenreDetail = React.createClass({
 	  		<p className="notice"></p>
 			  <div style={summaryStyle} className="row">
 			    <GenrePosterImage baseUrl={baseUrl} posterPath={posterPath} />
-			    <GenreContent films={this.state.films} baseUrl='/film/' name={this.props.name} overview={this.props.overview} />
+			    <GenreContent films={this.state.films} baseUrl='/films/' name={this.props.name} overview={this.props.overview} />
 			    <GenreConversation />
 			  </div>
 		  </div>

@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require foundation
-//= require turbolinks
 //= require underscore
 //= require react
 //= require react_ujs

@@ -41,7 +41,6 @@ var FilmDetail = React.createClass({
 	},
 	setCredits: function(data){
 		this.setState({credits: JSON.parse(data)});
-		console.log(this.state.credits);
 	},
 	setError: function(data){
 		this.setState({error: JSON.parse(data)});
@@ -120,7 +119,7 @@ var FilmContent = React.createClass({
 		    	<FilmTitle titleText={this.props.filmData.title} year={year} />
 		    	<FilmOverview overviewText={this.props.filmData.overview} />
 		    	<FilmDetailsList label="Directed By" items={directors} />
-		    	<FilmDetailsList label="Genres" items={genres} baseUrl='/genre/' />
+		    	<FilmDetailsList label="Genres" items={genres} baseUrl='/genres/' />
 		    	<FilmDetailsList label="Top Cast" items={cast} />
 		    </div>
 	    );
@@ -141,9 +140,7 @@ var FilmContent = React.createClass({
 
 		return directors;
 	},
-	getCast: function() {
-		console.log(this.props.creditData);
-		var castMembers = this.props.creditData.cast.map(
+	getCast: function() {		var castMembers = this.props.creditData.cast.map(
 			function(cast){
 				var displayValue = cast.name + ' ..... ' + cast.character;
 				return { id: cast.cast_id, name: cast.name, displayValue: displayValue }; 
@@ -184,7 +181,6 @@ var FilmDetailsList = React.createClass({
 		var self = this;
 		var details = this.props.items.map(
 			function(item){
-				console.log(item);
 				var urlKey = item.id + '-' + item.name;
 				return <FilmDetailItem key={item.id} name={item.name} urlKey={urlKey} baseUrl={self.props.baseUrl} displayValue={item.displayValue} />;
 		});
@@ -200,7 +196,8 @@ var FilmDetailItem = React.createClass({
 
 		if(this.props.baseUrl)
 		{
-			var fullUrl = this.props.baseUrl + (this.props.urlKey || this.state.key);
+			var urlKey = getUrlKey((this.props.urlKey || this.state.key));
+			var fullUrl = this.props.baseUrl + urlKey;
 			detailItem = 
 				<div className="row">
 					<a href={fullUrl}>{label}</a>
