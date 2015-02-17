@@ -10,12 +10,13 @@ var GenreList = React.createClass({
 		var items = this.getGenreListItems();
 
 		return (
-			<ul className="no-bullet">
+			<ul className="small-block-grid-2 medium-block-grid-4">
 				{items}
 			</ul>);
 	},
 	setConfig: function(data){
 		var config = JSON.parse(data);
+
 		if(config && config.images){
 			this.setState({ baseUrl: config.images.base_url });
 		}
@@ -26,12 +27,42 @@ var GenreList = React.createClass({
 
 		if(Object.prototype.toString.call( data.genres ) === '[object Array]')
 		{
-			mappedData = data.genres.map(function(item) {
-				return { tmdbId: item.id, title: item.name };
+			var self = this;
+			_.each(data.genres, function(item) {
+				theMovieDb.genres.getMovies({id: item.id, synchronous: true}, self.setGenreFilms, self.setError);
+				
+				mappedData[item.id] = { tmdbId: item.id, title: item.name };
 			});
 		} 
 
 		this.setState({ genres: mappedData });
+	},
+	setGenreFilms: function(jsonData){
+		var data = JSON.parse(jsonData);
+		var backgroundPath;
+		var failCount = 0;
+		var newState = this.state.genres;
+
+		while(!backgroundPath && failCount < 20)
+		{
+			if( Object.prototype.toString.call( data.results ) === '[object Array]'  && data.results.length > 0) {
+				randomIndex = Math.floor(Math.random() * data.results.length);
+				backgroundPath = data.results[randomIndex].backdrop_path;
+			}
+
+			failCount++;
+		}
+
+		if(backgroundPath)
+		{
+			var genre = newState[data.id];
+			if(genre)
+			{
+				genre.backgroundPath = backgroundPath;
+			}
+		}
+
+		this.setState({ genres: newState });
 	},
 	setError: function(data){
 		this.setState({error: JSON.parse(data)});
@@ -49,7 +80,7 @@ var GenreList = React.createClass({
 						return;
 					}
 
-					return <GenreListItem key={genre.tmdbId} tmdbId={genre.tmdbId} title={genre.title} baseUrl={self.state.baseUrl} />;
+					return <GenreListItem key={genre.tmdbId} tmdbId={genre.tmdbId} title={genre.title} baseUrl={self.state.baseUrl} backgroundPath={genre.backgroundPath} />;
 			});
 		}
 
@@ -72,8 +103,7 @@ var GenreListItem = React.createClass({
 		return (
 			<li style={listStyle}>
 				<a href={genreUrl} style={anchorStyle}>
-					<GenreListImage baseUrl={this.props.baseUrl} posterPath={this.props.posterPath} />
-					<GenreListTitle title={this.props.title} />
+					<GenreListImage baseUrl={this.props.baseUrl} backgroundPath={this.props.backgroundPath} title={this.props.title} />
 				</a>
 			</li>
 		);
@@ -81,30 +111,66 @@ var GenreListItem = React.createClass({
 });
 
 var GenreListImage = React.createClass({
+	getInitialState: function() {
+		var imageStyle = {
+			zIndex: '-1',
+			opacity: .6
+		};
+
+		return { imageStyle: imageStyle };
+	},
 	render: function() {
 		var image;
+		var divStyle = {
+			position: 'relative'
+		};
 
-		if(this.props.baseUrl && this.props.posterPath)
+		if(this.props.baseUrl && this.props.backgroundPath)
 		{
-			image = <img className="th radius" src={this.props.baseUrl + 'w92' + this.props.posterPath} />;
+			image = React.DOM.img({
+				onMouseEnter: this.__onMouseEnter,
+				onMouseLeave: this.__onMouseLeave,
+				className: 'th radius',
+				style: this.state.imageStyle,
+				src: this.props.baseUrl + 'w300' + this.props.backgroundPath
+			});
 		}
 
 		return (
-	    <div className="small-3 columns">
-	    	<div className="row">
-	    		<div className="small-12 columns">
+	    		<div style={divStyle}>
 			      {image}&nbsp;
+						<GenreListTitle title={this.props.title} />
 		      </div>
-	      </div>
-	    </div>
 		);
+	},
+	__onMouseEnter: function() {
+		var imageStyle = this.state.imageStyle;
+		imageStyle.opacity = 1;
+
+		this.setState({ imageStyle: imageStyle });
+	},
+	__onMouseLeave: function() {
+		var imageStyle = this.state.imageStyle;
+		imageStyle.opacity = .6;
+
+		this.setState({ imageStyle: imageStyle });
 	}
 });
 
 var GenreListTitle = React.createClass({
 	render: function() { 
+		var titleStyle = {
+			position: 'absolute',
+			bottom: '28',
+			left: '4',
+			right: '4',
+			padding: '0.4rem',
+		  background: 'rgb(0, 0, 0)',
+		  background: 'rgba(0, 0, 0, 0.7)'
+		};
+
 		return (
-			<div className="small-9 columns">
+			<div style={titleStyle}>
 				{this.props.title}
 			</div>
 		);
