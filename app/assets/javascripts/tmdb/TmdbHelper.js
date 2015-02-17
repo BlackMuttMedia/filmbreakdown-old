@@ -60,7 +60,7 @@ getGenreUrl = function(item)
 
 getUrlFromParts = function(baseUrl, id, title, releaseDate)
 {
-	var url = baseUrl + id + '-' +  getUrlKey(item.title);
+	var url = baseUrl + id + '-' +  getUrlKey(title);
 
 	if(!isNullOrWhitespace(releaseDate))
 	{
@@ -72,12 +72,7 @@ getUrlFromParts = function(baseUrl, id, title, releaseDate)
 
 getUrlKey = function(title)
 {
-	return title.replace(/[ ]+/g, "-").replace(/[^a-zA-Z0-9\-]+/g, ""); 
-}
-
-getUrlFromParts = function(baseUrl, id, urlKey)
-{
-	return baseUrl + id + '-' + urlKey;
+	return title.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9\-]+/g, ""); 
 }
 
 
