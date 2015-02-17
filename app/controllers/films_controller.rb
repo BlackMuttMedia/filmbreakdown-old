@@ -14,8 +14,17 @@ class FilmsController < ApplicationController
 
   def getbytmdb
     @tmdb_id = params[:tmdb_id]
+    if(@tmdb_id == nil)
+      redirect_to '/films/'
+    end
+    @tmdb_id = @tmdb_id.split('-')[0]
+
     @film = Film.find_by(tmdb_id: @tmdb_id)
     @tmdb_film = Tmdb::Movie.detail(@tmdb_id)
+
+    if(@tmdb_film == nil)
+      redirect_to '/films'
+    end
 
     if(@film == nil && @tmdb_film != nil)
       @film = Film.new({ tmdb_id: @tmdb_id })

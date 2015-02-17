@@ -1,34 +1,35 @@
-var FilmDetail = React.createClass({
+var GenreDetail = React.createClass({
 	getInitialState: function() {
 		var config = theMovieDb.configurations.getConfiguration(this.setConfig, this.setError);
-		var film = theMovieDb.movies.getById({id: this.props.filmId, synchronous: true}, this.setFilm, this.setError);
-		var credits = theMovieDb.movies.getCredits({id: this.props.filmId, synchronous: true}, this.setCredits, this.setError);
+		var genres = theMovieDb.genres.getMovies({id: this.props.genreId, synchronous: true}, this.setFilms, this.setError);
 
-		return {film: {}, config: {}, credits: {}, error: {}};
+		return {config: {}, films: new Array(), filmsPage: 0, error: {}};
 	},
 	render: function() { 
-		var image, baseUrl, posterPath, backgroundPath;
+		var image, baseUrl, posterPath, backgroundPath, randomIndex;
 		var summaryStyle = {
 	    textShadow: '2px 2px 2px #444'
 		};
 
-		if(this.state.config.images && this.state.config.images.base_url && this.state.film.poster_path)
+		if(this.state.config.images && this.state.config.images.base_url)
 		{
 			baseUrl = this.state.config.images.base_url;
-			posterPath = this.state.film.poster_path;
-			backgroundPath = this.state.film.backdrop_path;
+		}
+
+		if( Object.prototype.toString.call( this.state.films ) === '[object Array]'  && this.state.films.length > 0) {
+			randomIndex = Math.floor(Math.random() * this.state.films.length);
+			backgroundPath = this.state.films[randomIndex].backdrop_path;
+			//posterPath = this.state.films[randomIndex].poster_path;
 		}
 
 		return (
-
-		  //<!-- First Band (Image) -->
 		  <div>
-		  	<FilmBackground baseUrl={baseUrl} backgroundPath={backgroundPath} />
-			  <div style={summaryStyle} className="row summary">
-		  		<p className="notice"></p>
-			    <FilmPosterImage baseUrl={baseUrl} posterPath={posterPath} />
-			    <FilmContent filmData={this.state.film} creditData={this.state.credits} />
-			    <FilmConversation />
+		  	<GenreBackground baseUrl={baseUrl} backgroundPath={backgroundPath} />
+	  		<p className="notice"></p>
+			  <div style={summaryStyle} className="row">
+			    <GenrePosterImage baseUrl={baseUrl} posterPath={posterPath} />
+			    <GenreContent films={this.state.films} baseUrl='/film/' name={this.props.name} overview={this.props.overview} />
+			    <GenreConversation />
 			  </div>
 		  </div>
 		);
@@ -36,19 +37,17 @@ var FilmDetail = React.createClass({
 	setConfig: function(data){
 		this.setState({config: JSON.parse(data)});
 	},
-	setFilm: function(data){
-		this.setState({film: JSON.parse(data)});
-	},
-	setCredits: function(data){
-		this.setState({credits: JSON.parse(data)});
-		console.log(this.state.credits);
+	setFilms: function(data){
+		var dataItem = JSON.parse(data);
+
+		this.setState({filmsPage: dataItem.page, films: dataItem.results});
 	},
 	setError: function(data){
 		this.setState({error: JSON.parse(data)});
 	}
 });
 
-var FilmPosterImage = React.createClass({
+var GenrePosterImage = React.createClass({
 	render: function() {
 		var image;
 
@@ -60,7 +59,7 @@ var FilmPosterImage = React.createClass({
 	    <div className="small-3 columns">
 	    	<div className="row">
 	    		<div className="small-12 columns">
-			      {image}
+			      {image}&nbsp;
 		      </div>
 	      </div>
 	    </div>
@@ -68,7 +67,7 @@ var FilmPosterImage = React.createClass({
 	}
 });
 
-var FilmBackground = React.createClass({
+var GenreBackground = React.createClass({
 	render: function() {
 		var backgroundStyle = {
 			position: 'absolute',
@@ -91,76 +90,29 @@ var FilmBackground = React.createClass({
 	}
 });
 
-var FilmContent = React.createClass({
+var GenreContent = React.createClass({
 	render: function() {
-		var year, genres = [], cast = [], directors = [], cast = [];
-
-		if(this.props.filmData && this.props.filmData.release_date)
-		{
-			year = this.props.filmData.release_date.substring(0,4);
-		}
-
-		if(this.props.filmData && this.props.filmData.genres)
-		{
-			genres = this.props.filmData.genres;
-		}
-
-		if(this.props.creditData)
-		{
-			directors = this.getDirectors();
-
-			if(this.props.creditData.cast)
-			{
-				cast = this.getCast();
-			}
-		}
+		var films = (this.props.films || new Array())
+			.map(function(item){
+				return { id: item.id, name: item.title };
+			});
 
 		return (
 		    <div className="small-6 columns">
-		    	<FilmTitle titleText={this.props.filmData.title} year={year} />
-		    	<FilmOverview overviewText={this.props.filmData.overview} />
-		    	<DetailsList label="Directed By" items={directors} />
-		    	<DetailsList label="Genres" items={genres} />
-		    	<DetailsList label="Top Cast" items={cast} />
+		    	<GenreTitle name={this.props.name} />
+		    	<GenreOverview overviewText={this.props.overview} />
+		    	<DetailsList label="Top Films" items={films} baseUrl={this.props.baseUrl} />
 		    </div>
 	    );
-	},
-	getGenres: function() {
-		var genres = [];
-		if(this.props.filmData.genres)
-		{
-			genres = this.props.filmData.genres;
-		}
-		return genres;
-	},
-	getDirectors: function() {
-		var directors = _.where(this.props.creditData.crew, { department: "Directing"}).map(
-			function(credit){
-				return {id: credit.credit_id, name: credit.name}; 
-		});
-
-		return directors;
-	},
-	getCast: function() {
-		console.log(this.props.creditData);
-		var castMembers = this.props.creditData.cast.map(
-			function(cast){
-				return { id: cast.cast_id, name: cast.name, displayValue: cast.name + ' ..... ' + cast.character }; 
-		});
-
-		return castMembers;
 	}
 });
 
-var FilmTitle = React.createClass({
+var GenreTitle = React.createClass({
 	render: function() { 
 		return (
 		<div className="row">
 			<div>
-				<h1>{this.props.titleText}</h1>
-			</div>
-			<div>
-				<h4 className="subheader">{this.props.year}</h4>
+				<h1>{this.props.name}</h1>
 			</div>
 		</div>
 	)}
@@ -181,10 +133,14 @@ var DetailsList = React.createClass({
 	},
 	getItems: function() {
 		var self = this;
-		var details = this.props.items.map(
-			function(item){
-				return <DetailItem key={item.id} name={item.name} baseUrl={self.props.baseUrl} displayValue={item.displayValue} />;
-		});
+		var details = [];
+
+		if( Object.prototype.toString.call( this.props.items ) === '[object Array]' ) {
+			details = this.props.items.map(
+				function(item){
+					return <DetailItem key={item.id} id={item.id} name={item.name} baseUrl={self.props.baseUrl} displayValue={item.displayValue} />;
+			});
+		}
 
 		return details;
 	}
@@ -197,7 +153,8 @@ var DetailItem = React.createClass({
 
 		if(this.props.baseUrl)
 		{
-			var fullUrl = baseUrl + this.state.key;
+			var fullUrl = this.props.baseUrl + this.props.id;
+
 			detailItem = 
 				<div className="row">
 					<a href={fullUrl}>{label}</a>
@@ -212,47 +169,14 @@ var DetailItem = React.createClass({
 	}
 });
 
-var FilmOverview = React.createClass({
+var GenreOverview = React.createClass({
 	render: function() { 
 		return <p>{this.props.overviewText}</p>;
 	}
 });
 
-var FilmConversation = React.createClass({
+var GenreConversation = React.createClass({
 	render: function() {
 		return <div className="small-3 columns" />;
-	}
-});
-
-var FilmCreditTabs = React.createClass({
-	render: function() {
-		var tabStyle = {
-	    textShadow: 'none'
-		};
-
-		return (
-			<div className="row" style={tabStyle}>
-				<ul className="tabs" data-tab>
-				  <li className="tab-title active"><a href="#panel11">Tab 1</a></li>
-				  <li className="tab-title"><a href="#panel21">Tab 2</a></li>
-				  <li className="tab-title"><a href="#panel31">Tab 3</a></li>
-				  <li className="tab-title"><a href="#panel41">Tab 4</a></li>
-				</ul>
-				<div className="tabs-content">
-				  <div className="content active" id="panel11">
-				    <p>This is the first panel of the basic tab example. You can place all sorts of content here including a grid.</p>
-				  </div>
-				  <div className="content" id="panel21">
-				    <p>This is the second panel of the basic tab example. This is the second panel of the basic tab example.</p>
-				  </div>
-				  <div className="content" id="panel31">
-				    <p>This is the third panel of the basic tab example. This is the third panel of the basic tab example.</p>
-				  </div>
-				  <div className="content" id="panel41">
-				    <p>This is the fourth panel of the basic tab example. This is the fourth panel of the basic tab example.</p>
-				  </div>
-				</div>
-			</div>
-		);
 	}
 });

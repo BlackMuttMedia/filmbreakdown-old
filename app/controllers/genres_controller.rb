@@ -14,11 +14,23 @@ class GenresController < ApplicationController
 
   def getbytmdb
     @tmdb_id = params[:tmdb_id]
+    if(@tmdb_id == nil)
+      redirect_to '/genres/'
+    end
+    @tmdb_id = @tmdb_id.split('-')[0]
+
     @genre = Genre.find_by(tmdb_id: @tmdb_id)
     @tmdb_genre = Tmdb::Genre.detail(@tmdb_id)
+    
+    if(@tmdb_genre == nil)
+      redirect_to '/genres/'
+    end
 
+    @name = @tmdb_genre.name
+    @overview = 'This is a genre where people do things. It began before now and its purpose is to make you watch.'
+    
     if(@genre == nil && @tmdb_genre != nil)
-      @genre = Genre.new({ tmdb_id: @tmdb_id })
+      @genre = Genre.new({ tmdb_id: @tmdb_id, name: @name })
       @genre.save
     end
 

@@ -120,7 +120,7 @@ var FilmContent = React.createClass({
 		    	<FilmTitle titleText={this.props.filmData.title} year={year} />
 		    	<FilmOverview overviewText={this.props.filmData.overview} />
 		    	<FilmDetailsList label="Directed By" items={directors} />
-		    	<FilmDetailsList label="Genres" items={genres} />
+		    	<FilmDetailsList label="Genres" items={genres} baseUrl='/genre/' />
 		    	<FilmDetailsList label="Top Cast" items={cast} />
 		    </div>
 	    );
@@ -145,7 +145,8 @@ var FilmContent = React.createClass({
 		console.log(this.props.creditData);
 		var castMembers = this.props.creditData.cast.map(
 			function(cast){
-				return { id: cast.cast_id, name: cast.name, displayValue: cast.name + ' ..... ' + cast.character }; 
+				var displayValue = cast.name + ' ..... ' + cast.character;
+				return { id: cast.cast_id, name: cast.name, displayValue: displayValue }; 
 		});
 
 		return castMembers;
@@ -183,7 +184,9 @@ var FilmDetailsList = React.createClass({
 		var self = this;
 		var details = this.props.items.map(
 			function(item){
-				return <FilmDetailItem key={item.id} name={item.name} baseUrl={self.props.baseUrl} displayValue={item.displayValue} />;
+				console.log(item);
+				var urlKey = item.id + '-' + item.name;
+				return <FilmDetailItem key={item.id} name={item.name} urlKey={urlKey} baseUrl={self.props.baseUrl} displayValue={item.displayValue} />;
 		});
 
 		return details;
@@ -197,7 +200,7 @@ var FilmDetailItem = React.createClass({
 
 		if(this.props.baseUrl)
 		{
-			var fullUrl = baseUrl + this.state.key;
+			var fullUrl = this.props.baseUrl + (this.props.urlKey || this.state.key);
 			detailItem = 
 				<div className="row">
 					<a href={fullUrl}>{label}</a>
