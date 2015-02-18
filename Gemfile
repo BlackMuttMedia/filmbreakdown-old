@@ -16,6 +16,7 @@ gem 'react-rails', '~> 1.0.0.pre', github: 'reactjs/react-rails'
 gem 'bower-rails'
 gem 'underscore-rails'
 gem 'devise'
+gem 'acts_as_votable'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'

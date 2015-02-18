@@ -20,6 +20,12 @@
   	  <%= render 'layouts/nav' %>
 
 		  <div class="row">
+      <% if notice %>
+        <div data-alert class="alert-box success radius"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div data-alert class="alert-box alert radius"><%= alert %></div>
+      <% end %>
 			    <%= yield %>
 			    <%= javascript_include_tag "application" %>
   	  </div>
