@@ -152,7 +152,6 @@ var FilmContent = React.createClass({
 		    	<FilmTitle titleText={this.props.filmData.title} year={year} />
 		    	<FilmOverview overviewText={this.props.filmData.overview} />
 		    	<FilmDetailsList label="Directed By" items={directors} />
-		    	<FilmDetailsList label="Genres" items={genres} baseUrl='/genres/' />
 		    	<GenreSection genres={genres} />
 		    	<FilmDetailsList label="Top Cast" items={cast} />
 		    </div>
@@ -200,7 +199,14 @@ var FilmTitle = React.createClass({
 
 var GenreSection = React.createClass({
 	render: function() {
-		return <GenreList genres={this.props.genres} smallColumns="1" mediumColumns="1" largeColumns="1" />;
+		return(
+  		<div className="row">
+	    	<h5 className="small-4 columns">Genres</h5>
+	    	<div className="small-8 columns">
+	      	<ItemList items={this.props.genres} smallColumns="2" mediumColumns="2" largeColumns="2" baseItemUrl='/genres/' />
+	      </div>
+	    </div>
+    );
 	}
 });
 

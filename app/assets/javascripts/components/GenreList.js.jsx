@@ -7,7 +7,7 @@ var GenrePage = React.createClass({
 		return {genres: [], error: {}};
 	},
 	render: function(){
-		return <GenreList genres={this.state.genres} />
+		return <ItemList items={this.state.genres} baseItemUrl='/genres/' />
 	},
 	setConfig: function(data){
 		var config = JSON.parse(data);
@@ -64,15 +64,15 @@ var GenrePage = React.createClass({
 	}
 });
 
-var GenreList = React.createClass({
+var ItemList = React.createClass({
 	getInitialState: function() {
 		var self = this;
 		theMovieDb.configurations.getConfiguration(this.setConfig, this.setError);
 
-		return {genres: [], error: {}};
+		return {items: [], error: {}};
 	},
 	render: function(){
-		var items = this.getGenreListItems();
+		var items = this.getItemListItems();
 		var smallClass = 'small-block-grid-' + (this.props.smallColumns ? this.props.smallColumns : '2');
 		var mediumClass = ' medium-block-grid-' + (this.props.mediumColumns ? this.props.mediumColumns : '4');
 		var largeClass = this.props.largeColumns ? (' large-block-grid-' + this.props.largeColumns) : '';
@@ -93,34 +93,34 @@ var GenreList = React.createClass({
 	setError: function(data){
 		this.setState({error: JSON.parse(data)});
 	},
-	getGenreListItems: function() {
+	getItemListItems: function() {
 		var self = this;
-		var genres = [], backdropSize; 
+		var items = [], backdropSize; 
 
-		if(Object.prototype.toString.call( this.props.genres ) === '[object Array]' && self.state.config 
+		if(Object.prototype.toString.call( this.props.items ) === '[object Array]' && self.state.config 
 				&& self.state.config.images && self.state.config.images.backdrop_sizes)
 		{
-			genres = this.props.genres.map(
-				function(genre){
-					if(genre.tmdbId == 0)
+			items = this.props.items.map(
+				function(item){
+					if(item.id == 0)
 					{
 						return;
 					}
 					backdropSize = self.state.config.images.backdrop_sizes[0];
 
-					return (<GenreListItem key={genre.id} tmdbId={genre.id} title={genre.name} 
-										baseUrl={self.state.config.images.base_url} backgroundPath={genre.backgroundPath} 
-										size={backdropSize} />);
+					return (<ItemListItem key={item.id} id={item.id} title={item.name} 
+										baseUrl={self.state.config.images.base_url} backgroundPath={item.backgroundPath} 
+										size={backdropSize} baseItemUrl={self.props.baseItemUrl} />);
 			});
 		}
 
-		return genres;
+		return items;
 	}
 });
 
-var GenreListItem = React.createClass({
+var ItemListItem = React.createClass({
 	render: function() {
-		var genreUrl = getGenreUrl({ id: this.props.tmdbId, title: this.props.title });
+		var itemUrl = getItemUrl({ id: this.props.id, title: this.props.title, baseUrl: this.props.baseItemUrl });
 		var listStyle = {
 		};
 		var anchorStyle = {
@@ -131,7 +131,7 @@ var GenreListItem = React.createClass({
 
 		return (
 			<li style={listStyle}>
-				<a href={genreUrl} style={anchorStyle}>
+				<a href={itemUrl} style={anchorStyle}>
 					<GenreListImageBody baseUrl={this.props.baseUrl} backgroundPath={this.props.backgroundPath} size={this.props.size} title={this.props.title} />
 				</a>
 			</li>
@@ -149,7 +149,7 @@ var GenreListImageBody = React.createClass({
 		if(this.props.baseUrl && this.props.backgroundPath && this.props.size)
 		{
 			var imageWidth = this.props.size.substring(1);
-			image = <GenreListImage src={this.props.baseUrl + this.props.size + this.props.backgroundPath} 
+			image = <LabeledImage src={this.props.baseUrl + this.props.size + this.props.backgroundPath} 
 								title={this.props.title} imageWidth={imageWidth} />;
 		}
 
@@ -161,7 +161,7 @@ var GenreListImageBody = React.createClass({
 	}
 });
 
-var GenreListImage = React.createClass({
+var LabeledImage = React.createClass({
 	getInitialState: function() {
 		var imageStyle = {
 			zIndex: '-1',
@@ -196,7 +196,6 @@ var GenreListImage = React.createClass({
 	},
 	componentDidMount: function() { 
 		var imageNode = this.refs['image'].getDOMNode();
-		console.log(imageNode);
 	},
 	__onMouseEnter: function() {
 		var imageStyle = this.state.imageStyle;

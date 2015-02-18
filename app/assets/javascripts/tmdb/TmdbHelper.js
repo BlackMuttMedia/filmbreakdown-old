@@ -52,7 +52,19 @@ getGenreUrl = function(item)
 	var fullUrl;
 
 	if(!(item === 'undefined' || item == null || isNullOrWhitespace(item.title))){
+		console.log(item.id);
 		fullUrl = getUrlFromParts('/genres/', item.id, item.title, item.release_date);
+	}
+
+	return fullUrl;
+};
+
+getItemUrl = function(item)
+{
+	var fullUrl;
+
+	if(!(item === 'undefined' || item == null || isNullOrWhitespace(item.title))){
+		fullUrl = getUrlFromParts((item.baseUrl || ''), item.id, item.title, item.release_date);
 	}
 
 	return fullUrl;

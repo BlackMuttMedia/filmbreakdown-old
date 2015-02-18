@@ -27,7 +27,6 @@ var GenreDetail = React.createClass({
 		  	<GenreBackground baseUrl={baseUrl} backgroundPath={backgroundPath} />
 	  		<p className="notice"></p>
 			  <div style={summaryStyle} className="row">
-			    <GenrePosterImage baseUrl={baseUrl} posterPath={posterPath} />
 			    <GenreContent films={this.state.films} baseUrl='/films/' name={this.props.name} overview={this.props.overview} />
 			    <GenreConversation />
 			  </div>
@@ -44,26 +43,6 @@ var GenreDetail = React.createClass({
 	},
 	setError: function(data){
 		this.setState({error: JSON.parse(data)});
-	}
-});
-
-var GenrePosterImage = React.createClass({
-	render: function() {
-		var image;
-
-		if(this.props.baseUrl && this.props.posterPath)
-		{
-			image = <img className="th radius" src={this.props.baseUrl + 'w154' + this.props.posterPath} />;
-		}
-		return (
-	    <div className="small-3 columns">
-	    	<div className="row">
-	    		<div className="small-12 columns">
-			      {image}&nbsp;
-		      </div>
-	      </div>
-	    </div>
-		);
 	}
 });
 
@@ -92,16 +71,17 @@ var GenreBackground = React.createClass({
 
 var GenreContent = React.createClass({
 	render: function() {
+		console.log(this.props.films);
 		var films = (this.props.films || new Array())
 			.map(function(item){
-				return { id: item.id, name: item.title };
+				return { id: item.id, name: item.title, backgroundPath: item.backdrop_path };
 			});
 
 		return (
-		    <div className="small-6 columns">
+		    <div className="small-9 columns">
 		    	<GenreTitle name={this.props.name} />
 		    	<GenreOverview overviewText={this.props.overview} />
-		    	<DetailsList label="Top Films" items={films} baseUrl={this.props.baseUrl} />
+		    	<ItemList items={films} baseItemUrl='/films/' />
 		    </div>
 	    );
 	}
@@ -121,7 +101,12 @@ var GenreTitle = React.createClass({
 var DetailsList = React.createClass({
 	render: function() {
 		var items = this.getItems();
+		var fullClass='';
 
+		return (
+			<ul className={fullClass}>
+				{items}
+			</ul>);
   	return (
   		<div className="row">
 	    	<h5 className="small-4 columns">{this.props.label}</h5>
