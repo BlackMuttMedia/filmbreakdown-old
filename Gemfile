@@ -15,6 +15,7 @@ gem 'themoviedb',           '0.0.24'
 gem 'react-rails', '~> 1.0.0.pre', github: 'reactjs/react-rails'
 gem 'bower-rails'
 gem 'underscore-rails'
+gem 'devise'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
