@@ -27,7 +27,7 @@ var FilmDetail = React.createClass({
 			  <div style={summaryStyle} className="row summary">
 		  		<p className="notice"></p>
 			    <FilmPosterImage baseUrl={baseUrl} posterPath={posterPath} />
-			    <FilmContent filmData={this.state.film} creditData={this.state.credits} />
+			    <FilmContent filmData={this.state.film} genres={this.state.genres} creditData={this.state.credits} />
 			    <FilmConversation />
 			  </div>
 		  </div>
@@ -37,10 +37,43 @@ var FilmDetail = React.createClass({
 		this.setState({config: JSON.parse(data)});
 	},
 	setFilm: function(data){
-		this.setState({film: JSON.parse(data)});
+		var film = JSON.parse(data);
+		var self = this;
+
+		this.setState({film: film});
+
+		if(Object.prototype.toString.call( film.genres ) === '[object Array]')
+		{
+			_.each(film.genres, function(item, index) {
+				theMovieDb.genres.getMovies({id: item.id, synchronous: true}, self.setGenreFilms, self.setError);
+			});
+		} 
 	},
 	setCredits: function(data){
 		this.setState({credits: JSON.parse(data)});
+	},
+	setGenreFilms: function(jsonData){
+		var data = JSON.parse(jsonData);
+		var backgroundPath;
+		var failCount = 0;
+		var newState = this.state.film;
+
+		while(!backgroundPath && failCount < 20)
+		{
+			if( Object.prototype.toString.call( data.results ) === '[object Array]'  && data.results.length > 0) {
+				randomIndex = Math.floor(Math.random() * data.results.length);
+				backgroundPath = data.results[randomIndex].backdrop_path;
+			}
+
+			failCount++;
+		}
+
+		if(backgroundPath && newState && newState.genres)
+		{
+			_.findWhere(newState.genres, { id: data.id }).backgroundPath = backgroundPath;
+		}
+
+		this.setState({ film: newState });
 	},
 	setError: function(data){
 		this.setState({error: JSON.parse(data)});
@@ -120,6 +153,7 @@ var FilmContent = React.createClass({
 		    	<FilmOverview overviewText={this.props.filmData.overview} />
 		    	<FilmDetailsList label="Directed By" items={directors} />
 		    	<FilmDetailsList label="Genres" items={genres} baseUrl='/genres/' />
+		    	<GenreSection genres={genres} />
 		    	<FilmDetailsList label="Top Cast" items={cast} />
 		    </div>
 	    );
@@ -162,6 +196,12 @@ var FilmTitle = React.createClass({
 			</div>
 		</div>
 	)}
+});
+
+var GenreSection = React.createClass({
+	render: function() {
+		return <GenreList genres={this.props.genres} smallColumns="1" mediumColumns="1" largeColumns="1" />;
+	}
 });
 
 var FilmDetailsList = React.createClass({

@@ -1,4 +1,4 @@
-var GenreList = React.createClass({
+var GenrePage = React.createClass({
 	getInitialState: function() {
 		var self = this;
 		theMovieDb.configurations.getConfiguration(this.setConfig, this.setError);
@@ -7,18 +7,13 @@ var GenreList = React.createClass({
 		return {genres: [], error: {}};
 	},
 	render: function(){
-		var items = this.getGenreListItems();
-
-		return (
-			<ul className="small-block-grid-2 medium-block-grid-4">
-				{items}
-			</ul>);
+		return <GenreList genres={this.state.genres} />
 	},
 	setConfig: function(data){
 		var config = JSON.parse(data);
 
 		if(config && config.images){
-			this.setState({ baseUrl: config.images.base_url });
+			this.setState({ config: config });
 		}
 	},
 	setGenres: function(jsonData){
@@ -31,7 +26,7 @@ var GenreList = React.createClass({
 			_.each(data.genres, function(item) {
 				theMovieDb.genres.getMovies({id: item.id, synchronous: true}, self.setGenreFilms, self.setError);
 				
-				mappedData[item.id] = { tmdbId: item.id, title: item.name };
+				mappedData[item.id] = item;
 			});
 		} 
 
@@ -66,21 +61,56 @@ var GenreList = React.createClass({
 	},
 	setError: function(data){
 		this.setState({error: JSON.parse(data)});
+	}
+});
+
+var GenreList = React.createClass({
+	getInitialState: function() {
+		var self = this;
+		theMovieDb.configurations.getConfiguration(this.setConfig, this.setError);
+
+		return {genres: [], error: {}};
+	},
+	render: function(){
+		var items = this.getGenreListItems();
+		var smallClass = 'small-block-grid-' + (this.props.smallColumns ? this.props.smallColumns : '2');
+		var mediumClass = ' medium-block-grid-' + (this.props.mediumColumns ? this.props.mediumColumns : '4');
+		var largeClass = this.props.largeColumns ? (' large-block-grid-' + this.props.largeColumns) : '';
+		var fullClass = smallClass + mediumClass + largeClass;
+
+		return (
+			<ul className={fullClass}>
+				{items}
+			</ul>);
+	},
+	setConfig: function(data){
+		var config = JSON.parse(data);
+
+		if(config && config.images){
+			this.setState({ config: config });
+		}
+	},
+	setError: function(data){
+		this.setState({error: JSON.parse(data)});
 	},
 	getGenreListItems: function() {
 		var self = this;
-		var genres = []; 
+		var genres = [], backdropSize; 
 
-		if(Object.prototype.toString.call( this.state.genres ) === '[object Array]')
+		if(Object.prototype.toString.call( this.props.genres ) === '[object Array]' && self.state.config 
+				&& self.state.config.images && self.state.config.images.backdrop_sizes)
 		{
-			genres = this.state.genres.map(
+			genres = this.props.genres.map(
 				function(genre){
 					if(genre.tmdbId == 0)
 					{
 						return;
 					}
+					backdropSize = self.state.config.images.backdrop_sizes[0];
 
-					return <GenreListItem key={genre.tmdbId} tmdbId={genre.tmdbId} title={genre.title} baseUrl={self.state.baseUrl} backgroundPath={genre.backgroundPath} />;
+					return (<GenreListItem key={genre.id} tmdbId={genre.id} title={genre.name} 
+										baseUrl={self.state.config.images.base_url} backgroundPath={genre.backgroundPath} 
+										size={backdropSize} />);
 			});
 		}
 
@@ -96,16 +126,37 @@ var GenreListItem = React.createClass({
 		var anchorStyle = {
 			margin: '0px',
 			display: 'block',
-			width: '100%',
-			height: '100%'
+			position: 'relative'
 		};
 
 		return (
 			<li style={listStyle}>
 				<a href={genreUrl} style={anchorStyle}>
-					<GenreListImage baseUrl={this.props.baseUrl} backgroundPath={this.props.backgroundPath} title={this.props.title} />
+					<GenreListImageBody baseUrl={this.props.baseUrl} backgroundPath={this.props.backgroundPath} size={this.props.size} title={this.props.title} />
 				</a>
 			</li>
+		);
+	}
+});
+
+var GenreListImageBody = React.createClass({
+	render: function() {
+		var image;
+		var divStyle = {
+			position: 'relative'
+		};
+
+		if(this.props.baseUrl && this.props.backgroundPath && this.props.size)
+		{
+			var imageWidth = this.props.size.substring(1);
+			image = <GenreListImage src={this.props.baseUrl + this.props.size + this.props.backgroundPath} 
+								title={this.props.title} imageWidth={imageWidth} />;
+		}
+
+		return (
+	    		<div ref="mainDiv" style={divStyle}>
+			      {image}
+		      </div>
 		);
 	}
 });
@@ -117,31 +168,35 @@ var GenreListImage = React.createClass({
 			opacity: .6
 		};
 
-		return { imageStyle: imageStyle };
-	},
-	render: function() {
-		var image;
 		var divStyle = {
-			position: 'relative'
+			backgroundColor: "rgb(70,70,70)"
 		};
 
-		if(this.props.baseUrl && this.props.backgroundPath)
-		{
-			image = React.DOM.img({
-				onMouseEnter: this.__onMouseEnter,
-				onMouseLeave: this.__onMouseLeave,
-				className: 'th radius',
-				style: this.state.imageStyle,
-				src: this.props.baseUrl + 'w300' + this.props.backgroundPath
-			});
-		}
+		var titleStyle = {
+			position: 'absolute',
+			bottom: '4',
+			left: '4',
+			right: '4',
+			padding: '0.4rem',
+		  background: 'rgb(0, 0, 0)',
+		  background: 'rgba(0, 0, 0, 0.7)'
+		};
 
+		return { imageStyle: imageStyle, divStyle: divStyle, titleStyle: titleStyle };
+	},
+	render: function() {
 		return (
-	    		<div style={divStyle}>
-			      {image}&nbsp;
-						<GenreListTitle title={this.props.title} />
-		      </div>
+			<div style={this.state.divStyle}>
+				<img className='th radius' style={this.state.imageStyle} onMouseLeave={this.__onMouseLeave} 
+						onMouseEnter={this.__onMouseEnter} src={this.props.src}
+						ref="image" />
+				<GenreListTitle titleStyle={this.state.titleStyle} title={this.props.title} />
+			</div>
 		);
+	},
+	componentDidMount: function() { 
+		var imageNode = this.refs['image'].getDOMNode();
+		console.log(imageNode);
 	},
 	__onMouseEnter: function() {
 		var imageStyle = this.state.imageStyle;
@@ -159,18 +214,9 @@ var GenreListImage = React.createClass({
 
 var GenreListTitle = React.createClass({
 	render: function() { 
-		var titleStyle = {
-			position: 'absolute',
-			bottom: '28',
-			left: '4',
-			right: '4',
-			padding: '0.4rem',
-		  background: 'rgb(0, 0, 0)',
-		  background: 'rgba(0, 0, 0, 0.7)'
-		};
 
 		return (
-			<div style={titleStyle}>
+			<div style={this.props.titleStyle}>
 				{this.props.title}
 			</div>
 		);
