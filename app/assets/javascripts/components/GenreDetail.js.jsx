@@ -71,12 +71,12 @@ var GenreBackground = React.createClass({
 
 var GenreContent = React.createClass({
 	render: function() {
-		console.log(this.props.films);
+		//console.log(this.props.films);
 		var films = (this.props.films || new Array())
 			.map(function(item){
 				return { id: item.id, name: item.title, backgroundPath: item.backdrop_path };
 			});
-
+console.log(films);
 		return (
 		    <div className="small-9 columns">
 		    	<GenreTitle name={this.props.name} />

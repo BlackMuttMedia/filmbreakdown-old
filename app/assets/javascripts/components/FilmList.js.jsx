@@ -9,13 +9,17 @@ var FilmList = React.createClass({
 
 		return {films: [], error: {}};
 	},
-	render: function(){
-		var items = this.getFilmListItems();
+	render: function(){ 
+		console.log()
+		var films = (this.state.films || new Array())
+			.map(function(item){
+				return { id: item.tmdbId, name: item.title, backgroundPath: item.backgroundPath };
+			});
+		console.log(films);
 
 		return (
-			<ul className="small-block-grid-1">
-				{items}
-			</ul>);
+    	<ItemList items={films} baseItemUrl='/films/' />
+  	);
 	},
 	setConfig: function(data){
 		var config = JSON.parse(data);
@@ -29,7 +33,7 @@ var FilmList = React.createClass({
 			this.state.films : [];
 		var data = JSON.parse(jsonData);
 
-		newState.push({ tmdbId: data.id, title: data.title, posterPath: data.poster_path, releaseDate: data.release_date  });
+		newState.push({ tmdbId: data.id, title: data.title, posterPath: data.poster_path, backgroundPath: data.backdrop_path, releaseDate: data.release_date  });
 		newState = _.sortBy(newState, function(film){ return film.title });
 
 		this.setState({ films: newState });
@@ -46,8 +50,8 @@ var FilmList = React.createClass({
 				{
 					return;
 				}
-
-				return <FilmListItem key={film.tmdbId} tmdbId={film.tmdbId} title={film.title} posterPath={film.posterPath} releaseDate={film.releaseDate} baseUrl={self.state.baseUrl} />;
+				return { id: film.tmdbId, name: film.title, backgroundPath: film.backdrop_path };
+				//return <FilmListItem key={film.tmdbId} tmdbId={film.tmdbId} title={film.title} posterPath={film.posterPath} releaseDate={film.releaseDate} baseUrl={self.state.baseUrl} />;
 		});
 
 		return films;
