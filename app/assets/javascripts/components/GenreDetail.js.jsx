@@ -81,6 +81,8 @@ console.log(films);
 		    <div className="small-9 columns">
 		    	<GenreTitle name={this.props.name} />
 		    	<GenreOverview overviewText={this.props.overview} />
+		    	<Post anchorText="Add Description ..." revealHeader="Add Description" placeholderText="Enter a description ..." />
+		    	<hr />
 		    	<ItemList items={films} baseItemUrl='/films/' />
 		    </div>
 	    );
