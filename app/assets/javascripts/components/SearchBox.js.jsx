@@ -62,7 +62,6 @@ var SearchBoxInput = React.createClass({
 		  	$(ul).append(renderedListItem);
 		  	$(ul[0].lastChild).data("ui-autocomplete-item", item);
 
-	  		//React.render(listItem, ul[0]);
 	    	return  ul;
 	    }
 	}

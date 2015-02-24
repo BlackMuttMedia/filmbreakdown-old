@@ -76,7 +76,7 @@ var GenreContent = React.createClass({
 			.map(function(item){
 				return { id: item.id, name: item.title, backgroundPath: item.backdrop_path };
 			});
-console.log(films);
+
 		return (
 		    <div className="small-9 columns">
 		    	<GenreTitle name={this.props.name} />

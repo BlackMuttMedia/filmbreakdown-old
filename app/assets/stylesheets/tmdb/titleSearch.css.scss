@@ -18,5 +18,11 @@ $f-dropdown-triangle-side-offset: 10px !default;
 		$content: list
 		);
 	li.ui-state-focus { background-color: $smoke; }
-	color: $charcoal;
+	// color: $charcoal;
+}
+
+.reveal-modal{
+	h2, p, h1, h3, h4, h5, h6 {
+	color: $base;
+	}
 }
