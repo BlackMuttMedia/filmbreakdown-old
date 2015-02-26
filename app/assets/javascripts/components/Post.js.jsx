@@ -175,7 +175,7 @@ var PostLink = React.createClass({
 			postLink = <a onClick={this.props.handleClick} href={this.props.anchorHref || '#'}>{this.props.anchorText || 'Add Post ...'}</a>;
 		}
 		else{
-			postLink = <a onClick={this.props.handleClick} href={this.props.noUserAnchorHref || '#'}>{this.props.noUserAnchorText || 'Log In to Add Post ...'}</a>;
+			postLink = <a href={this.props.noUserAnchorHref || '#'}>{this.props.noUserAnchorText || 'Log In to Add Post ...'}</a>;
 		}
 
 		return(
