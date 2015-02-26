@@ -24,13 +24,14 @@ class GenresController < ApplicationController
     end
 
     @name = @tmdb_genre.name
-    @overview = 'This is a genre where people do things. It began before now and its purpose is to make you watch.'
 
     if(@genre == nil && @tmdb_genre != nil)
       @genre = Genre.new({ tmdb_id: @tmdb_id, name: @name })
       @genre.save
     end
-
+    @user_id = current_user ? current_user.id : -1
+    puts current_user
+    
   end
 
   # GET /genres/new
@@ -81,6 +82,36 @@ class GenresController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # POST /genres/add_description
+  # POST /genres/add_description.json
+  def add_description
+    parentId = params["parentId"]
+    content = params["content"]
+    userId = params["userId"]
+
+    @post = Post.new
+    @post.content = content
+    @post.genre_id = parentId
+    @post.user_id = userId
+
+    if @post.save
+      render :json =>
+      {
+        :status => 'ok',
+        :message => 'Post saved!',
+        :object => @post
+      }.to_json
+    else
+      render :json =>
+      {
+        :status => 'error',
+        :message => @post.errors.full_messages.to_sentence,
+        :object => @post
+      }.to_json
+    end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -1,2 +1,6 @@
 <p id="notice"><%= notice %></p>
-<div data-react-class="GenreDetail" data-react-props="<%= {genreId: @tmdb_id, name: @name, overview: @overview}.to_json %>" />
+<div data-react-class="GenreDetail"
+	data-react-props="<%= {genreId: @tmdb_id, endpointUrl: genres_add_description_url, name: @name, parentId: @genre.id, 
+	userid: @user_id, noUserAnchorHref: "/users/sign_in", noUserAnchorText: 'Log In to Add Description ...',
+	defaultText: 'No description has get been provieded. Please consider providing a description for this genre.',
+	descriptions: @genre.descriptions }.to_json %>" />

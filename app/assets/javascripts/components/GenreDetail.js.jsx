@@ -27,7 +27,10 @@ var GenreDetail = React.createClass({
 		  	<GenreBackground baseUrl={baseUrl} backgroundPath={backgroundPath} />
 	  		<p className="notice"></p>
 			  <div style={summaryStyle} className="row">
-			    <GenreContent films={this.state.films} baseUrl='/films/' name={this.props.name} overview={this.props.overview} />
+			    <GenreContent userid={this.props.userid} films={this.state.films} baseUrl='/films/' name={this.props.name} 
+			    	parentId={this.props.parentId} defaultText={this.props.defaultText} endpointUrl={this.props.endpointUrl}
+			    	noUserAnchorHref={this.props.noUserAnchorHref} noUserAnchorText={this.props.noUserAnchorText}
+			    	descriptions={this.props.descriptions} />
 			    <GenreConversation />
 			  </div>
 		  </div>
@@ -80,8 +83,11 @@ var GenreContent = React.createClass({
 		return (
 		    <div className="small-9 columns">
 		    	<GenreTitle name={this.props.name} />
-		    	<GenreOverview overviewText={this.props.overview} />
-		    	<Post anchorText="Add Description ..." revealHeader="Add Description" placeholderText="Enter a description ..." />
+		    	<PostListComponent anchorText="Add Description ..." postText="Post Description" 
+		    		placeholderText="Enter a description ..." parentId={this.props.parentId}
+		    		endpointUrl={this.props.endpointUrl} defaultText={this.props.defaultText}
+		    		userid={this.props.userid} noUserAnchorHref={this.props.noUserAnchorHref} 
+		    		noUserAnchorText={this.props.noUserAnchorText} posts={this.props.descriptions} />
 		    	<hr />
 		    	<ItemList items={films} baseItemUrl='/films/' />
 		    </div>
@@ -153,12 +159,6 @@ var DetailItem = React.createClass({
 		} 
 
 		return detailItem;
-	}
-});
-
-var GenreOverview = React.createClass({
-	render: function() { 
-		return <p>{this.props.overviewText}</p>;
 	}
 });
 

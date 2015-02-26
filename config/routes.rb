@@ -1,4 +1,20 @@
 Rails.application.routes.draw do
+  get 'mock_ups/category'
+
+  get 'mock_ups/film'
+
+  get 'mock_ups/genre'
+
+  get 'mock_ups/post'
+
+  get 'mock_ups/shot'
+
+  get 'mock_ups/structure'
+
+  get 'mock_ups/user'
+
+  post 'genres/add_description' => 'genres#add_description'
+
   devise_for :users
   resources :films
   resources :genres

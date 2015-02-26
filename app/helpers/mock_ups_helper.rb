@@ -1,0 +1,2 @@
+module MockUpsHelper
+end
