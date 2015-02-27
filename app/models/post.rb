@@ -1,8 +1,8 @@
 class Post < ActiveRecord::Base
   acts_as_votable
 	belongs_to :category
-	
-  belongs_to :described_genre, :foreign_key => 'genre_id', :class_name => 'Genre'
+
+  has_and_belongs_to_many :described_genres, :class_name => 'Genre'
   belongs_to :user
 
   # Validations
