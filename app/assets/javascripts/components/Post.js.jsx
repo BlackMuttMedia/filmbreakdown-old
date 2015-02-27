@@ -16,8 +16,8 @@ var PostListComponent = React.createClass({
 					<div className="small-12 columns">
 						{this.props.header ? <PostHeader headerContent={this.props.header} /> : null }
 						<PostList posts={this.state.posts} showSeparator={this.props.showSeparator} defaultText={this.props.defaultText} />
-						{ this.state.showPostBox ? <PostForm postText={this.props.postText} placeholderText={this.props.placeholderText} handlePost={this.handleSubmit} /> : null }
 						{ this.state.showAlert ? <PostAlert alertMessage={this.state.alertMessage} alertClass={this.state.alertClass } handleClose={this.hideAlert} /> : null }
+						{ this.state.showPostBox ? <PostForm postText={this.props.postText} placeholderText={this.props.placeholderText} handlePost={this.handleSubmit} /> : null }
 						{ this.state.showPostLink ? <PostLink anchorText={this.props.anchorText} handleClick={this.showPostBox} userid={this.props.userid}
 								noUserAnchorHref={this.props.noUserAnchorHref} noUserAnchorText={this.props.noUserAnchorText}  /> : null }
 					</div>
@@ -27,10 +27,6 @@ var PostListComponent = React.createClass({
 	},
 	showPostBox: function(e) {
     this.setState({ showPostBox: true, showPostLink: false });
-    e.preventDefault();
-	},
-	hidePostBox: function(e) {
-    this.setState({ showPostBox: false, showPostLink: true });
     e.preventDefault();
 	},
 	handleSubmit: function(data, e) {
@@ -52,14 +48,10 @@ var PostListComponent = React.createClass({
 		  dataType: 'json'
 		});
 
-		this.hidePostBox(e);
+		e.preventDefault();
 	},
 	handleSubmitSuccess: function(data){
-		//var posts = this.state.posts || [];
-		//posts.push(data.newPost);
-
 		if(data.status == 'ok') {
-			console.log(data);
 			var posts = this.state.posts || [];
 			posts.push(data.object)
 
@@ -67,7 +59,9 @@ var PostListComponent = React.createClass({
 				alertMessage: this.props.successMessage || 'Post submitted' ,
 				alertClass: 'alert-box success radius',
 				showAlert: true,
-				posts: posts
+				posts: posts,
+				showPostBox: false, 
+				showPostLink: true 
 			});
 		}
 		else{
@@ -77,20 +71,14 @@ var PostListComponent = React.createClass({
 				showAlert: true
 			});
 		}
-
-		//this.setState({ posts: posts });
 	},
 	handleSubmitFailure: function(xhr, ajaxOptions, thrownError){
-        alert(xhr.status);
-        alert(thrownError);
-		//var posts = this.state.posts || [];
-		//posts.push(data.newPost);
+      //alert(xhr.status);
+      //alert(thrownError);
 			this.setState({
-				alertMessage: data.message || 'There was an error submitting your post' ,
+				alertMessage: thrownError || 'There was an error submitting your post' ,
 				alertClass: 'alert-box alert radius'
 			});
-
-		//this.setState({ posts: posts });
 	},
 	hideAlert: function(e)
 	{
@@ -198,18 +186,3 @@ var PostAlert = React.createClass({
 	);
 	}
 })
-
-/*var header = 'Post Mock';
-var anchorText = 'Add a description ...';
-var posts =
-	[
-	  {id: 1, content: "Boy, am I a wonderful description of things and stuff."},
-	  {id: 2, content: "I'm another great description. Boy am I descriptive"},
-	  {id: 3, content: "What's with those other descriptions? What's wrong with Lorem Ipsum?"}
-	];
-var targetElement = document.getElementById('reactContent');
-
-if(targetElement) {
-	React.render(<PostListWithHeader anchorText={anchorText} header={header} posts={posts} />, targetElement);
-}*/
-
