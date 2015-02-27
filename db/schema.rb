@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150227003829) do
+ActiveRecord::Schema.define(version: 20150227010429) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -33,6 +33,11 @@ ActiveRecord::Schema.define(version: 20150227003829) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "genres_posts", id: false, force: :cascade do |t|
+    t.integer "genre_id", null: false
+    t.integer "post_id",  null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text     "content"
     t.integer  "user_id"
@@ -40,7 +45,6 @@ ActiveRecord::Schema.define(version: 20150227003829) do
     t.integer  "imdb_title_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.integer  "genre_id"
   end
 
   create_table "shots", force: :cascade do |t|

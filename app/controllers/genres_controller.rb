@@ -92,10 +92,11 @@ class GenresController < ApplicationController
 
     @post = Post.new
     @post.content = content
-    @post.genre_id = parentId
     @post.user_id = userId
 
-    if @post.save
+    @genre = Genre.find(parentId)
+
+    if @post.save && @genre.descriptions << @post
       render :json =>
       {
         :status => 'ok',
