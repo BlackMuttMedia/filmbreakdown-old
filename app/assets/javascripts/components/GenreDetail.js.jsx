@@ -32,6 +32,7 @@ var GenreDetail = React.createClass({
 			    	noUserAnchorHref={this.props.noUserAnchorHref} noUserAnchorText={this.props.noUserAnchorText}
 			    	descriptions={this.props.descriptions} />
 			  </div>
+			  <ElementSummaryReveal />
 		  </div>
 		);
 	},
@@ -208,6 +209,10 @@ var GenreConversation = React.createClass({
 			padding: '8px;'
 		};
 
+		var revealStyle = {
+			color: '#666666'
+		};
+
 		return( 
 			<div className="small-12 columns">
 				<div className="row">
@@ -216,11 +221,11 @@ var GenreConversation = React.createClass({
 						<div className="row">
 							<div className="small-12 columns">
 								<ul className="inline-list">
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Bleak</a></li>
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Dark</a></li>
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Chilling</a></li>
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Ugly</a></li>
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Scary</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Bleak</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Dark</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Chilling</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Ugly</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Scary</a></li>
 								</ul>
 							</div>
 						</div>
@@ -232,11 +237,11 @@ var GenreConversation = React.createClass({
 						<div className="row">
 							<div className="small-12 columns">
 								<ul className="inline-list">
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Detective</a></li>
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Goofy Sidekick</a></li>
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Femme Fatale</a></li>
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Corrupt Police Officer</a></li>
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Anti-Hero</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Detective</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Goofy Sidekick</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Femme Fatale</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Corrupt Police Officer</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Anti-Hero</a></li>
 								</ul>
 							</div>
 						</div>
@@ -248,17 +253,47 @@ var GenreConversation = React.createClass({
 						<div className="row">
 							<div className="small-12 columns">
 								<ul className="inline-list">
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Long Take</a></li>
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Dutch Angle</a></li>
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Low Angle</a></li>
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Backlighting</a></li>
-									<li><a href="#" style={buttonStyle} className="button tiny radius">Establishing Shots</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Long Take</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Dutch Angle</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Low Angle</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Backlighting</a></li>
+									<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">Establishing Shots</a></li>
 								</ul>
 							</div>
 						</div>
 					</div>
 				</div>
+				<ElementSummaryReveal ref='summaryReveal' />
 			</div>
 		);
+	},
+	handleClick: function(e) {
+		this.refs['summaryReveal'].handleClick(e);
+	}
+});
+
+var ElementSummaryReveal = React.createClass({
+	render: function(){
+		return (
+			<div>
+				<div ref="summaryReveal" className="reveal-modal" data-reveal>
+					<form>
+						<h2>Summary</h2>
+						<div class="row">
+							<div class="small-12 columns">
+								This genre has this element in such a way. 
+							</div>
+						</div>
+						<a className="close-reveal-modal">&#215;</a>
+					</form>
+				</div>
+			</div>
+		);
+	},
+	handleClick: function(e){
+		var reveal = this.refs['summaryReveal'].getDOMNode();
+		$(reveal).foundation('reveal', 'open');
+
+		e.preventDefault();
 	}
 });
