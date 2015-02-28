@@ -100,15 +100,13 @@ var GenreContent = React.createClass({
 				    		noUserAnchorText={this.props.noUserAnchorText} posts={this.props.descriptions} />
 				    	<hr />
 			    	</div>
-			    	<div className="small-3 columns" style={headerContentStyle}>
-			    		<GenreConversationHeader genrename={this.props.name} />
-		    		</div>
 		    	</div>
 		    	<div className="row">
 		    		<div className="small-9 columns">
 		    			<ItemList items={films} baseItemUrl='/films/' />
 	    			</div>
 	    			<div className="small-3 columns">
+			    		{false ? <GenreConversationHeader genrename={this.props.name} /> : null }
 					    <GenreConversation />
 			    	</div>
 		    	</div>
@@ -188,13 +186,13 @@ var GenreConversationHeader = React.createClass({
 	render: function() {
 		var headerStyle = {
 			fontWeight: 'bold',
-			fontSize: '125%'
+			fontSize: '125%',
+			paddingBottom: '10px'
 		};
 
 		return(
 			<div style={headerStyle}>
 				{this.props.genrename} Details
-				<hr />
 			</div>
 		);
 	}
