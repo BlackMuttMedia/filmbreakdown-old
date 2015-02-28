@@ -31,7 +31,6 @@ var GenreDetail = React.createClass({
 			    	parentId={this.props.parentId} defaultText={this.props.defaultText} endpointUrl={this.props.endpointUrl}
 			    	noUserAnchorHref={this.props.noUserAnchorHref} noUserAnchorText={this.props.noUserAnchorText}
 			    	descriptions={this.props.descriptions} />
-			    <GenreConversation />
 			  </div>
 		  </div>
 		);
@@ -79,17 +78,40 @@ var GenreContent = React.createClass({
 			.map(function(item){
 				return { id: item.id, name: item.title, backgroundPath: item.backdrop_path };
 			});
+		var headerRowStyle = {
+			position: 'relative'
+		};
+
+		var headerContentStyle = {
+			position: 'absolute',
+			bottom: '0px',
+			right: '0px'
+		};
 
 		return (
-		    <div className="small-9 columns">
-		    	<GenreTitle name={this.props.name} />
-		    	<PostListComponent anchorText="Add Description ..." postText="Post Description" 
-		    		placeholderText="Enter a description ..." parentId={this.props.parentId}
-		    		endpointUrl={this.props.endpointUrl} defaultText={this.props.defaultText}
-		    		userid={this.props.userid} noUserAnchorHref={this.props.noUserAnchorHref} 
-		    		noUserAnchorText={this.props.noUserAnchorText} posts={this.props.descriptions} />
-		    	<hr />
-		    	<ItemList items={films} baseItemUrl='/films/' />
+		    <div className="small-12 columns">
+		    	<div className="row" style={headerRowStyle}>
+		    		<div className="small-9 columns">
+				    	<GenreTitle name={this.props.name} />
+				    	<PostListComponent anchorText="Add Description ..." postText="Post Description" 
+				    		placeholderText="Enter a description ..." parentId={this.props.parentId}
+				    		endpointUrl={this.props.endpointUrl} defaultText={this.props.defaultText}
+				    		userid={this.props.userid} noUserAnchorHref={this.props.noUserAnchorHref} 
+				    		noUserAnchorText={this.props.noUserAnchorText} posts={this.props.descriptions} />
+				    	<hr />
+			    	</div>
+			    	<div className="small-3 columns" style={headerContentStyle}>
+			    		<GenreConversationHeader genrename={this.props.name} />
+		    		</div>
+		    	</div>
+		    	<div className="row">
+		    		<div className="small-9 columns">
+		    			<ItemList items={films} baseItemUrl='/films/' />
+	    			</div>
+	    			<div className="small-3 columns">
+					    <GenreConversation />
+			    	</div>
+		    	</div>
 		    </div>
 	    );
 	}
@@ -162,8 +184,83 @@ var DetailItem = React.createClass({
 	}
 });
 
+var GenreConversationHeader = React.createClass({
+	render: function() {
+		var headerStyle = {
+			fontWeight: 'bold',
+			fontSize: '125%'
+		};
+
+		return(
+			<div style={headerStyle}>
+				{this.props.genrename} Details
+				<hr />
+			</div>
+		);
+	}
+})
+
 var GenreConversation = React.createClass({
 	render: function() {
-		return <div className="small-3 columns" />;
+		var categoryHeaderStyle = {
+			fontWeight: 'bold'
+		};
+
+		var buttonStyle = {
+			padding: '8px;'
+		};
+
+		return( 
+			<div className="small-12 columns">
+				<div className="row">
+					<div className="small-12 columns">
+						<span style={categoryHeaderStyle}>Atmosphere</span>
+						<div className="row">
+							<div className="small-12 columns">
+								<ul className="inline-list">
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Bleak</a></li>
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Dark</a></li>
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Chilling</a></li>
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Ugly</a></li>
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Scary</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div className="row">
+					<div className="small-12 columns">
+						<span style={categoryHeaderStyle}>Stock Characters</span>
+						<div className="row">
+							<div className="small-12 columns">
+								<ul className="inline-list">
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Detective</a></li>
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Goofy Sidekick</a></li>
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Femme Fatale</a></li>
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Corrupt Police Officer</a></li>
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Anti-Hero</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div className="row">
+					<div className="small-12 columns">
+						<span style={categoryHeaderStyle}>Techniques</span>
+						<div className="row">
+							<div className="small-12 columns">
+								<ul className="inline-list">
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Long Take</a></li>
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Dutch Angle</a></li>
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Low Angle</a></li>
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Backlighting</a></li>
+									<li><a href="#" style={buttonStyle} className="button tiny radius">Establishing Shots</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
 	}
 });

@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :elements
+
+  resources :element_types
+
   get 'mock_ups/category'
 
   get 'mock_ups/film'
