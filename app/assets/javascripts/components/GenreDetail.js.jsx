@@ -263,7 +263,7 @@ var GenreConversation = React.createClass({
 						</div>
 					</div>
 				</div>
-				<ElementSummaryReveal ref='summaryReveal' />
+				<ElementSummaryReveal ref='summaryReveal' revealStyle={revealStyle} />
 			</div>
 		);
 	},
@@ -276,12 +276,43 @@ var ElementSummaryReveal = React.createClass({
 	render: function(){
 		return (
 			<div>
-				<div ref="summaryReveal" className="reveal-modal" data-reveal>
+				<div ref="summaryReveal" className="reveal-modal" style={this.props.revealStyle} data-reveal>
 					<form>
 						<h2>Summary</h2>
 						<div class="row">
 							<div class="small-12 columns">
-								This genre has this element in such a way. 
+								<blockquote style={this.props.revealStyle}>
+									This genre has this thing in such a way. It helps to communicate the fragility of fragile things 
+									and the reasons for the way our faces are. 
+									<cite style={this.props.revealStyle}>Jimmy Userguy</cite>
+								</blockquote>
+							</div>
+						</div>
+						<div class="row">
+							<div class="small-12 columns">
+								<blockquote style={this.props.revealStyle}>
+									This genre has this thing in such a way. It helps to communicate the fragility of fragile things 
+									and the reasons for the way our faces are. 
+									<cite style={this.props.revealStyle}>Jimmy Userguy</cite>
+								</blockquote>
+							</div>
+						</div>
+						<div class="row">
+							<div class="small-12 columns">
+								<blockquote style={this.props.revealStyle}>
+									This genre has this thing in such a way. It helps to communicate the fragility of fragile things 
+									and the reasons for the way our faces are. 
+									<cite style={this.props.revealStyle}>Jimmy Userguy</cite>
+								</blockquote>
+							</div>
+						</div>
+						<div class="row">
+							<div class="small-12 columns">
+								<blockquote style={this.props.revealStyle}>
+									This genre has this thing in such a way. It helps to communicate the fragility of fragile things 
+									and the reasons for the way our faces are. 
+									<cite style={this.props.revealStyle}>Jimmy Userguy</cite>
+								</blockquote>
 							</div>
 						</div>
 						<a className="close-reveal-modal">&#215;</a>

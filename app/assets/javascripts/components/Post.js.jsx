@@ -77,7 +77,8 @@ var PostListComponent = React.createClass({
       //alert(thrownError);
 			this.setState({
 				alertMessage: thrownError || 'There was an error submitting your post' ,
-				alertClass: 'alert-box alert radius'
+				alertClass: 'alert-box alert radius',
+				showAlert: true
 			});
 	},
 	hideAlert: function(e)
