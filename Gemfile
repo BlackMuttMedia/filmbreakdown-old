@@ -17,6 +17,7 @@ gem 'bower-rails'
 gem 'underscore-rails'
 gem 'devise'
 gem 'acts_as_votable'
+gem 'foundation-icons-sass-rails'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'

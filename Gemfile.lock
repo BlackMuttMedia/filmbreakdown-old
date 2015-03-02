@@ -87,6 +87,9 @@ GEM
       httparty (~> 0.8.3)
       httparty-icebox (~> 0.0.4)
     formatador (0.2.5)
+    foundation-icons-sass-rails (3.0.0)
+      railties (>= 3.1.1)
+      sass-rails (>= 3.1.1)
     foundation-rails (5.5.1.0)
       railties (>= 3.1.0)
       sass (>= 3.3.0, < 3.5)
@@ -256,6 +259,7 @@ DEPENDENCIES
   coffee-rails (= 4.1.0)
   devise
   filmbuff
+  foundation-icons-sass-rails
   foundation-rails
   guard-minitest (= 2.3.1)
   jbuilder (= 2.2.3)

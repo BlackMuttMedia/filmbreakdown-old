@@ -72,7 +72,12 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  logger = Logger.new(File.join( Rails.root, "log", "my_#{ Rails.env}.log"), 'daily')
+    logger.level = Logger::INFO
+    logger.formatter = proc do |severity, datetime, progname, msg|
+      "#{datetime.strftime("%B %d %H:%M:%S")} #{Socket.gethostname}, [#{$$}]:, #{severity}  MY_WEBAPP, #{msg}\n"
+    end
+  config.log_formatter = ::Logger::Formatter.new(logger)
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false

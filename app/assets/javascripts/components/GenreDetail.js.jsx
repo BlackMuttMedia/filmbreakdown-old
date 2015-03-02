@@ -282,8 +282,17 @@ var ElementSummaryReveal = React.createClass({
 						<div class="row">
 							<div class="small-12 columns">
 								<blockquote style={this.props.revealStyle}>
-									This genre has this thing in such a way. It helps to communicate the fragility of fragile things 
-									and the reasons for the way our faces are. 
+									<div className="row">
+										<div className="small-12 columns">
+											This genre has this thing in such a way. It helps to communicate the fragility of fragile things 
+											and the reasons for the way our faces are. 
+										</div>
+									</div>
+									<div className="row">
+										<div className="small-6 medium-offset-6 medium-2 large-offset-8 large-2 columns">Ratings:</div>
+										<div className="small-3 medium-2 large-1 columns"><i className="fi-arrow-up alert"></i>300</div>
+										<div className="small-3 medium-2 large-1 columns"><i className="fi-arrow-down alert"></i>-20</div>
+									</div>
 									<cite style={this.props.revealStyle}>Jimmy Userguy</cite>
 								</blockquote>
 							</div>
