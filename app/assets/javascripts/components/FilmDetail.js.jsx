@@ -166,7 +166,7 @@ var FilmContent = React.createClass({
 		return genres;
 	},
 	getDirectors: function() {
-		var directors = _.where(this.props.creditData.crew, { department: "Directing"}).map(
+		var directors = _.where(this.props.creditData.crew, { department: "Directing", job: "Director" }).map(
 			function(credit){
 				return {id: credit.credit_id, name: credit.name}; 
 		});
