@@ -15,7 +15,6 @@ var FilmList = React.createClass({
 			.map(function(item){
 				return { id: item.tmdbId, name: item.title, backgroundPath: item.backgroundPath };
 			});
-		console.log(films);
 
 		return (
     	<ItemList items={films} baseItemUrl='/films/' />
