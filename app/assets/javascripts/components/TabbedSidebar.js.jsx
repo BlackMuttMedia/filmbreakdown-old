@@ -37,18 +37,18 @@ var TabbedSidebarItem = React.createClass({
 		  		<div className="small-6 columns text-right">
 						<a href="#" onClick={this.handleMoreClick}>See More ...</a>
 					</div>
+					<FoundationReveal ref="moreReveal" revealContent="Seeing More" />
+					<FoundationReveal ref="addReveal" revealContent="Adding" />
 				</div>
 		  </section>
 		)
 	},
 	handleMoreClick: function(e) {
-		alert('Showing More');
-
+		this.refs.moreReveal.handleClick(e);
 		e.preventDefault();
 	},
 	handleAddClick: function(e) {
-		alert('Showing Add');
-		
+		this.refs.addReveal.handleClick(e);
 		e.preventDefault();
 	}
 });
