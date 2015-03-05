@@ -10,7 +10,7 @@ var ElementButtonList = React.createClass({
 		var buttonStyle = {
 			padding: '8px;'
 		};
-		var item = <ElementSummary genreName={this.state.genreName} elementName={this.state.elementName} />;
+		var item = <ElementSummary heading={this.state.genreName + ' Summary'} genreName={this.state.genreName} elementName={this.state.elementName} />;
 
 		return( 
 			<div className="row">
@@ -75,10 +75,15 @@ var ElementSummary = React.createClass({
 
 		return (
 			<div>
-				<h2>Summary</h2>
+				<h2>{this.props.heading}</h2>
 				<PostDisplay genreName={this.props.genreName} elementName={this.props.elementName} />
 				<PostDisplay genreName={this.props.genreName} elementName={this.props.elementName} />
 				<PostDisplay genreName={this.props.genreName} elementName={this.props.elementName} />
+				<div className="row">
+					<div className="small-12 columns text-right">
+						<a href="#">Add more ...</a>
+					</div>
+				</div>
 			</div>
 		);
 	},
