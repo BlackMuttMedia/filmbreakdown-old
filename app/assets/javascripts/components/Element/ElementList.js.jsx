@@ -1,6 +1,6 @@
 var ElementButtonList = React.createClass({
 	getInitialState: function() {
-		return { visible: false, elementName: null, genreName: null };
+		return { elementName: null, genreName: null };
 	},
 	render: function() {
 		var categoryHeaderStyle = {
@@ -33,21 +33,11 @@ var ElementButtonList = React.createClass({
 		);
 	},
 	handleClick: function(i, e) {
-		var elementName = 'Emelent'; //this.props.items[i];
+		e.preventDefault();
+		var elementName = this.props.items[i];
 		var genreName = "Adventure";
-		this.setState({ visible: false, elementName: elementName, genreName: genreName }, 
-		this.refs.summaryReveal.handleClick(e));
-	}
-});
-
-var ElementButtonListItem = React.createClass({
-	render: function() {
-		return (
-			<li><a href="#" onClick={this.handleClick} style={buttonStyle} className="button tiny radius">{this.props.itemValue}</a></li>
-		);
-	},
-	handleClick: function(e) {
-		this.refs['summaryReveal'].handleClick(e);
+		this.setState({ elementName: elementName, genreName: genreName }, 
+			function() { this.refs.summaryReveal.handleClick(); });
 	}
 });
 
