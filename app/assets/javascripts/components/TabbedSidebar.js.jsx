@@ -18,7 +18,9 @@ var TabbedSidebar = React.createClass({
 
 var TabbedSidebarItem = React.createClass({
 	render: function() {
-		var seeMoreContent = <ElementSummary heading="See More" genreName="See More" elementName="Seymour" />;
+		var seeMoreContent = this.props.heading == 'Elements' ? 
+			<PlaceHolderGenreConversation /> :
+			<ElementSummary heading="See More" genreName="See More" elementName="Seymour" />;
 		var addContent = <AddPlaceholder />;
 
 		return(

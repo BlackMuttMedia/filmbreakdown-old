@@ -33,7 +33,7 @@ var ElementButtonList = React.createClass({
 		);
 	},
 	handleClick: function(i, e) {
-		var elementName = this.props.items[i];
+		var elementName = 'Emelent'; //this.props.items[i];
 		var genreName = "Adventure";
 		this.setState({ visible: false, elementName: elementName, genreName: genreName }, 
 		this.refs.summaryReveal.handleClick(e));
