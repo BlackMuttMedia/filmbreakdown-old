@@ -15,7 +15,12 @@ var FoundationReveal = React.createClass({
 		var reveal = $('<div class="reveal-modal" data-reveal>').append($(contentDiv)).append($(anchor));
 		$(reveal).foundation().foundation('reveal', 'open');
 		$(reveal).bind('closed.fndtn.reveal', function(e){ React.unmountComponentAtNode(this); });
-		
-		React.render(this.props.revealContent, $(contentDiv)[0]);
+
+		if(React.isValidElement(this.props.revealContent)) {
+			React.render(this.props.revealContent, $(contentDiv)[0]);
+		}
+		else {
+			$(contentDiv).append(this.props.revealContent);
+		}
 	}
 });
