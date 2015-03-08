@@ -20,6 +20,7 @@
 
 // Vendor Files
 //= require themoviedb
+//= require fluxxor
 
 //= require_tree .
 

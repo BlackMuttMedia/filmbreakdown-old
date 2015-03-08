@@ -1,5 +1,6 @@
 var ElementButtonList = React.createClass({
 	getInitialState: function() {
+
 		return { elementName: null, genreName: null };
 	},
 	render: function() {

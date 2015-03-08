@@ -1,4 +1,14 @@
+var FluxMixin = Fluxxor.FluxMixin(React),
+    StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
 var GenreDetail = React.createClass({
+	mixins: [FluxMixin, StoreWatchMixin("GenresStore")],
+  getStateFromFlux: function() {
+    var flux = fluxGenresStore.flux; //this.getFlux();
+    return {
+      genres: flux.store("GenresStore").getState().genres
+    };
+  },
 	getInitialState: function() {
 		var config = theMovieDb.configurations.getConfiguration(this.setConfig, this.setError);
 		var genres = theMovieDb.genres.getMovies({id: this.props.genreId, synchronous: true}, this.setFilms, this.setError);
