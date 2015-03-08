@@ -11,7 +11,7 @@ var GenreDetail = React.createClass({
   },
 	getInitialState: function() {
 		var config = theMovieDb.configurations.getConfiguration(this.setConfig, this.setError);
-		var genres = theMovieDb.genres.getMovies({id: this.props.genreId, synchronous: true}, this.setFilms, this.setError);
+		var genres = theMovieDb.genres.getMovies({id: this.props.genreInfo.genreId, synchronous: true}, this.setFilms, this.setError);
 
 		return {config: {}, films: new Array(), filmsPage: 0, error: {}};
 	},
@@ -39,10 +39,10 @@ var GenreDetail = React.createClass({
 	  		<div className="row">
   			</div>
 			  <div style={summaryStyle} className="row">
-			    <GenreContent userid={this.props.userid} films={this.state.films} baseUrl='/films/' name={this.props.name} 
-			    	parentId={this.props.parentId} defaultText={this.props.defaultText} endpointUrl={this.props.endpointUrl}
-			    	noUserAnchorHref={this.props.noUserAnchorHref} noUserAnchorText={this.props.noUserAnchorText}
-			    	descriptions={this.props.descriptions} />
+			    <GenreContent userid={this.props.genreInfo.userid} films={this.state.films} baseUrl='/films/' name={this.props.genreInfo.name} 
+			    	parentId={this.props.genreInfo.parentId} defaultText={this.props.genreInfo.defaultText} endpointUrl={this.props.genreInfo.endpointUrl}
+			    	noUserAnchorHref={this.props.genreInfo.noUserAnchorHref} noUserAnchorText={this.props.genreInfo.noUserAnchorText}
+			    	descriptions={this.props.genreInfo.descriptions} />
 			  </div>
 			  <ElementSummaryReveal />
 		  </div>
